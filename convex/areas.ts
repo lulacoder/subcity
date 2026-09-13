@@ -13,6 +13,25 @@ export const list = query({
   },
 })
 
+export const listPublic = query({
+  args: {},
+  handler: async (ctx) => {
+    return ctx.db
+      .query('areas')
+      .withIndex('by_type_and_displayOrder')
+      .filter((q) => q.eq(q.field('active'), true))
+      .collect()
+  },
+})
+
+export const getById = query({
+  args: { areaId: v.id('areas') },
+  handler: async (ctx, args) => {
+    await requireAdmin(ctx)
+    return ctx.db.get(args.areaId)
+  },
+})
+
 export const updateLinks = mutation({
   args: {
     areaId: v.id('areas'),
@@ -57,8 +76,8 @@ export const createWoreda = mutation({
 
     const existing = await ctx.db
       .query('areas')
-      .withIndex('by_type_and_woredaNumber', (query) =>
-        query.eq('type', 'woreda').eq('woredaNumber', args.woredaNumber),
+      .withIndex('by_type_and_woredaNumber', (q) =>
+        q.eq('type', 'woreda').eq('woredaNumber', args.woredaNumber),
       )
       .unique()
 
@@ -66,8 +85,8 @@ export const createWoreda = mutation({
 
     const subcity = await ctx.db
       .query('areas')
-      .withIndex('by_type_and_displayOrder', (query) =>
-        query.eq('type', 'subcity'),
+      .withIndex('by_type_and_displayOrder', (q) =>
+        q.eq('type', 'subcity'),
       )
       .first()
 

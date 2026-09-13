@@ -103,14 +103,16 @@ export const landingCopy: Record<Language, LandingCopy> = {
   },
 }
 
+export const CDN_BASE = 'https://cdn.jsdelivr.net/gh/lulacoder/subcity@main/public'
+
 export const galleryImages = [
-  { src: '/images/subcity-office.jpeg', alt: 'Akaki Kality sub-city office and gardens' },
-  { src: '/images/community-welcome.jpeg', alt: 'Community welcome at the sub-city compound' },
-  { src: '/images/tree-planting.jpeg', alt: 'Tree planting at the sub-city compound' },
-  { src: '/images/akaki-kality-campus.jpeg', alt: 'Landscaped grounds at Akaki Kality' },
-  { src: '/images/community-gathering.jpeg', alt: 'Community gathering at the sub-city entrance' },
-  { src: '/images/green-campus.jpeg', alt: 'Green public grounds at Akaki Kality' },
-  { src: '/images/cultural-celebration.jpeg', alt: 'Cultural program with the community' },
-  { src: '/images/administration-office.jpeg', alt: 'An office inside the administration building' },
-  { src: '/images/security-monitoring.jpeg', alt: 'Security monitoring system at the compound' },
+  { src: `${CDN_BASE}/images/subcity-office.jpeg`, alt: 'Akaki Kality sub-city office and gardens' },
+  { src: `${CDN_BASE}/images/community-welcome.jpeg`, alt: 'Community welcome at the sub-city compound' },
+  { src: `${CDN_BASE}/images/tree-planting.jpeg`, alt: 'Tree planting at the sub-city compound' },
+  { src: `${CDN_BASE}/images/akaki-kality-campus.jpeg`, alt: 'Landscaped grounds at Akaki Kality' },
+  { src: `${CDN_BASE}/images/community-gathering.jpeg`, alt: 'Community gathering at the sub-city entrance' },
+  { src: `${CDN_BASE}/images/green-campus.jpeg`, alt: 'Green public grounds at Akaki Kality' },
+  { src: `${CDN_BASE}/images/cultural-celebration.jpeg`, alt: 'Cultural program with the community' },
+  { src: `${CDN_BASE}/images/administration-office.jpeg`, alt: 'An office inside the administration building' },
+  { src: `${CDN_BASE}/images/security-monitoring.jpeg`, alt: 'Security monitoring system at the compound' },
 ] as const

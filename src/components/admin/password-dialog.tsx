@@ -20,7 +20,10 @@ export function PasswordDialog({
 }: {
   open: boolean
   onOpenChange: (open: boolean) => void
-  onChangePassword: (values: { currentPassword: string; newPassword: string }) => Promise<void>
+  onChangePassword: (values: {
+    currentPassword: string
+    newPassword: string
+  }) => Promise<void>
   isSaving: boolean
 }) {
   const [error, setError] = useState('')
@@ -46,7 +49,11 @@ export function PasswordDialog({
       form.reset()
       onOpenChange(false)
     } catch (caughtError) {
-      setError(caughtError instanceof Error ? caughtError.message : 'Could not change password.')
+      setError(
+        caughtError instanceof Error
+          ? caughtError.message
+          : 'Could not change password.',
+      )
     }
   }
 
@@ -62,22 +69,54 @@ export function PasswordDialog({
         <form onSubmit={handleSubmit}>
           <div className="grid gap-5">
             <Field>
-              <FieldLabel htmlFor="current-password">Current password</FieldLabel>
-              <Input id="current-password" name="currentPassword" type="password" autoComplete="current-password" required />
+              <FieldLabel htmlFor="current-password">
+                Current password
+              </FieldLabel>
+              <Input
+                id="current-password"
+                name="currentPassword"
+                type="password"
+                autoComplete="current-password"
+                required
+              />
             </Field>
             <Field>
               <FieldLabel htmlFor="new-password">New password</FieldLabel>
-              <Input id="new-password" name="newPassword" type="password" autoComplete="new-password" minLength={12} required />
+              <Input
+                id="new-password"
+                name="newPassword"
+                type="password"
+                autoComplete="new-password"
+                minLength={12}
+                required
+              />
             </Field>
             <Field>
-              <FieldLabel htmlFor="confirm-password">Confirm new password</FieldLabel>
-              <Input id="confirm-password" name="confirmation" type="password" autoComplete="new-password" minLength={12} required />
+              <FieldLabel htmlFor="confirm-password">
+                Confirm new password
+              </FieldLabel>
+              <Input
+                id="confirm-password"
+                name="confirmation"
+                type="password"
+                autoComplete="new-password"
+                minLength={12}
+                required
+              />
             </Field>
             <FieldError>{error}</FieldError>
           </div>
           <DialogFooter className="mt-7">
-            <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>Cancel</Button>
-            <Button type="submit" disabled={isSaving}>{isSaving ? 'Changing…' : 'Change password'}</Button>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => onOpenChange(false)}
+            >
+              Cancel
+            </Button>
+            <Button type="submit" disabled={isSaving}>
+              {isSaving ? 'Changing…' : 'Change password'}
+            </Button>
           </DialogFooter>
         </form>
       </DialogContent>

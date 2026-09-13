@@ -11,8 +11,12 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminRouteImport } from './routes/admin'
+import { Route as DirectoryRouteImport } from './routes/directory'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
+import { Route as DirectoryIndexRouteImport } from './routes/directory.index'
+import { Route as DirectorySlugRouteImport } from './routes/directory.$slug'
+import { Route as AdminAreasIdRouteImport } from './routes/admin.areas.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -22,6 +26,11 @@ const IndexRoute = IndexRouteImport.update({
 const AdminRoute = AdminRouteImport.update({
   id: '/admin',
   path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DirectoryRoute = DirectoryRouteImport.update({
+  id: '/directory',
+  path: '/directory',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminIndexRoute = AdminIndexRouteImport.update({
@@ -34,36 +43,86 @@ const AdminLoginRoute = AdminLoginRouteImport.update({
   path: '/login',
   getParentRoute: () => AdminRoute,
 } as any)
+const DirectoryIndexRoute = DirectoryIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DirectoryRoute,
+} as any)
+const DirectorySlugRoute = DirectorySlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => DirectoryRoute,
+} as any)
+const AdminAreasIdRoute = AdminAreasIdRouteImport.update({
+  id: '/areas/$id',
+  path: '/areas/$id',
+  getParentRoute: () => AdminRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
+  '/directory': typeof DirectoryRouteWithChildren
   '/admin/login': typeof AdminLoginRoute
+  '/directory/$slug': typeof DirectorySlugRoute
   '/admin/': typeof AdminIndexRoute
+  '/directory/': typeof DirectoryIndexRoute
+  '/admin/areas/$id': typeof AdminAreasIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin/login': typeof AdminLoginRoute
+  '/directory/$slug': typeof DirectorySlugRoute
   '/admin': typeof AdminIndexRoute
+  '/directory': typeof DirectoryIndexRoute
+  '/admin/areas/$id': typeof AdminAreasIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
+  '/directory': typeof DirectoryRouteWithChildren
   '/admin/login': typeof AdminLoginRoute
+  '/directory/$slug': typeof DirectorySlugRoute
   '/admin/': typeof AdminIndexRoute
+  '/directory/': typeof DirectoryIndexRoute
+  '/admin/areas/$id': typeof AdminAreasIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/admin' | '/admin/login' | '/admin/'
+  fullPaths:
+    | '/'
+    | '/admin'
+    | '/directory'
+    | '/admin/login'
+    | '/directory/$slug'
+    | '/admin/'
+    | '/directory/'
+    | '/admin/areas/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/admin/login' | '/admin'
-  id: '__root__' | '/' | '/admin' | '/admin/login' | '/admin/'
+  to:
+    | '/'
+    | '/admin/login'
+    | '/directory/$slug'
+    | '/admin'
+    | '/directory'
+    | '/admin/areas/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/admin'
+    | '/directory'
+    | '/admin/login'
+    | '/directory/$slug'
+    | '/admin/'
+    | '/directory/'
+    | '/admin/areas/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRouteWithChildren
+  DirectoryRoute: typeof DirectoryRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -82,6 +141,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/directory': {
+      id: '/directory'
+      path: '/directory'
+      fullPath: '/directory'
+      preLoaderRoute: typeof DirectoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/': {
       id: '/admin/'
       path: '/'
@@ -96,24 +162,62 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminLoginRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/directory/': {
+      id: '/directory/'
+      path: '/'
+      fullPath: '/directory/'
+      preLoaderRoute: typeof DirectoryIndexRouteImport
+      parentRoute: typeof DirectoryRoute
+    }
+    '/directory/$slug': {
+      id: '/directory/$slug'
+      path: '/$slug'
+      fullPath: '/directory/$slug'
+      preLoaderRoute: typeof DirectorySlugRouteImport
+      parentRoute: typeof DirectoryRoute
+    }
+    '/admin/areas/$id': {
+      id: '/admin/areas/$id'
+      path: '/areas/$id'
+      fullPath: '/admin/areas/$id'
+      preLoaderRoute: typeof AdminAreasIdRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
 
 interface AdminRouteChildren {
   AdminLoginRoute: typeof AdminLoginRoute
   AdminIndexRoute: typeof AdminIndexRoute
+  AdminAreasIdRoute: typeof AdminAreasIdRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
   AdminLoginRoute: AdminLoginRoute,
   AdminIndexRoute: AdminIndexRoute,
+  AdminAreasIdRoute: AdminAreasIdRoute,
 }
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
+interface DirectoryRouteChildren {
+  DirectorySlugRoute: typeof DirectorySlugRoute
+  DirectoryIndexRoute: typeof DirectoryIndexRoute
+}
+
+const DirectoryRouteChildren: DirectoryRouteChildren = {
+  DirectorySlugRoute: DirectorySlugRoute,
+  DirectoryIndexRoute: DirectoryIndexRoute,
+}
+
+const DirectoryRouteWithChildren = DirectoryRoute._addFileChildren(
+  DirectoryRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRouteWithChildren,
+  DirectoryRoute: DirectoryRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

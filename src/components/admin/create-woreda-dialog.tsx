@@ -21,7 +21,11 @@ export function CreateWoredaDialog({
 }: {
   open: boolean
   onOpenChange: (open: boolean) => void
-  onCreate: (values: { name: string; woredaNumber: number; displayOrder: number }) => Promise<void>
+  onCreate: (values: {
+    name: string
+    woredaNumber: number
+    displayOrder: number
+  }) => Promise<void>
   isCreating: boolean
   nextOrder: number
 }) {
@@ -40,42 +44,93 @@ export function CreateWoredaDialog({
       })
       onOpenChange(false)
     } catch (caughtError) {
-      setError(caughtError instanceof Error ? caughtError.message : 'Could not create woreda.')
+      setError(
+        caughtError instanceof Error
+          ? caughtError.message
+          : 'Could not create woreda.',
+      )
     }
   }
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent>
+      <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Add a woreda</DialogTitle>
-          <DialogDescription>
-            The official number and display order can differ.
+          <DialogTitle className="text-xl font-bold">
+            Add a new woreda
+          </DialogTitle>
+          <DialogDescription className="text-xs">
+            Add a new woreda district to the Akaki Kality social directory.
           </DialogDescription>
         </DialogHeader>
-        <form onSubmit={handleSubmit}>
-          <div className="grid gap-5">
+        <form onSubmit={handleSubmit} className="mt-2">
+          <div className="grid gap-4">
             <Field>
-              <FieldLabel htmlFor="woreda-name">Name</FieldLabel>
-              <Input id="woreda-name" name="name" placeholder="Woreda 14" required autoFocus />
+              <FieldLabel
+                htmlFor="woreda-name"
+                className="text-xs font-semibold"
+              >
+                Woreda Name
+              </FieldLabel>
+              <Input
+                id="woreda-name"
+                name="name"
+                placeholder="e.g. Woreda 14"
+                required
+                autoFocus
+              />
             </Field>
             <div className="grid grid-cols-2 gap-4">
               <Field>
-                <FieldLabel htmlFor="woreda-number">Official number</FieldLabel>
-                <Input id="woreda-number" name="number" type="number" min="1" step="1" required />
+                <FieldLabel
+                  htmlFor="woreda-number"
+                  className="text-xs font-semibold"
+                >
+                  Official Number
+                </FieldLabel>
+                <Input
+                  id="woreda-number"
+                  name="number"
+                  type="number"
+                  min="1"
+                  step="1"
+                  placeholder="14"
+                  required
+                />
               </Field>
               <Field>
-                <FieldLabel htmlFor="woreda-order">Display order</FieldLabel>
-                <Input id="woreda-order" name="order" type="number" min="1" step="1" defaultValue={nextOrder} required />
+                <FieldLabel
+                  htmlFor="woreda-order"
+                  className="text-xs font-semibold"
+                >
+                  Display Order
+                </FieldLabel>
+                <Input
+                  id="woreda-order"
+                  name="order"
+                  type="number"
+                  min="1"
+                  step="1"
+                  defaultValue={nextOrder}
+                  required
+                />
               </Field>
             </div>
             <FieldError>{error}</FieldError>
           </div>
-          <DialogFooter className="mt-7">
-            <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
+          <DialogFooter className="mt-6 pt-4 border-t border-border/60">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => onOpenChange(false)}
+            >
               Cancel
             </Button>
-            <Button type="submit" disabled={isCreating}>
+            <Button
+              type="submit"
+              disabled={isCreating}
+              className="bg-[#075a9c] text-white hover:bg-[#0b6eb8] font-semibold"
+            >
               {isCreating ? 'Creating…' : 'Create woreda'}
             </Button>
           </DialogFooter>

@@ -5,7 +5,12 @@ import { useEffect, useState } from 'react'
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Field, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field'
+import {
+  Field,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import { authClient } from '@/lib/auth-client'
 
@@ -47,28 +52,40 @@ function AdminLogin() {
     <main className="admin-login-page">
       <Link className="back-link" to="/">
         <HugeiconsIcon icon={ArrowLeft02Icon} size={18} />
-        Back to site
+        Back to public site
       </Link>
+
       <Card className="login-card">
-        <CardHeader>
-          <div className="login-icon">
-            <HugeiconsIcon icon={LockPasswordIcon} size={22} />
+        <CardHeader className="text-center sm:text-left">
+          <div className="flex items-center gap-3">
+            <div className="login-icon">
+              <HugeiconsIcon icon={LockPasswordIcon} size={22} />
+            </div>
+            <div>
+              <p className="admin-overline">Verified Portal</p>
+              <span className="text-xs text-blue-200/80 font-medium">
+                Akaki Kality Administration
+              </span>
+            </div>
           </div>
-          <p className="admin-overline">Private workspace</p>
-          <CardTitle className="text-2xl">Directory sign in</CardTitle>
-          <p className="text-muted-foreground">
-            Use the super-admin account to manage city and woreda links.
+          <CardTitle className="mt-2 text-2xl font-bold tracking-tight">
+            Directory sign in
+          </CardTitle>
+          <p className="text-sm text-white/70">
+            Sign in with authorized super-admin credentials to manage public
+            woreda links.
           </p>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit}>
-            <FieldGroup>
+            <FieldGroup className="gap-5">
               <Field>
-                <FieldLabel htmlFor="email">Email address</FieldLabel>
+                <FieldLabel htmlFor="email">Admin email</FieldLabel>
                 <Input
                   id="email"
                   name="email"
                   type="email"
+                  placeholder="admin@akakikality.gov.et"
                   autoComplete="email"
                   required
                   autoFocus
@@ -80,14 +97,20 @@ function AdminLogin() {
                   id="password"
                   name="password"
                   type="password"
+                  placeholder="••••••••••••"
                   autoComplete="current-password"
                   minLength={12}
                   required
                 />
               </Field>
               <FieldError>{error}</FieldError>
-              <Button type="submit" size="lg" disabled={isSubmitting}>
-                {isSubmitting ? 'Signing in…' : 'Sign in'}
+              <Button
+                type="submit"
+                size="lg"
+                className="w-full bg-blue-700 text-white hover:bg-blue-800 font-semibold shadow-lg shadow-blue-950/40"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? 'Signing in…' : 'Access Admin Directory'}
               </Button>
             </FieldGroup>
           </form>
