@@ -17,7 +17,12 @@ import {
 import { HugeiconsIcon } from '@hugeicons/react'
 import { convexQuery } from '@convex-dev/react-query'
 import { useMutation, useQuery } from '@tanstack/react-query'
-import { createFileRoute, Link, Navigate, useNavigate } from '@tanstack/react-router'
+import {
+  createFileRoute,
+  Link,
+  Navigate,
+  useNavigate,
+} from '@tanstack/react-router'
 import { useMutation as useConvexMutation } from 'convex/react'
 import { useEffect, useMemo, useRef, useState } from 'react'
 
@@ -168,6 +173,10 @@ function AdminDashboard() {
               <HugeiconsIcon icon={Link01Icon} size={18} />
               Directory &amp; Links
             </a>
+            <Link to="/admin/surveys">
+              <HugeiconsIcon icon={Globe02Icon} size={18} />
+              Surveys
+            </Link>
             <button type="button" onClick={() => setIsPasswordOpen(true)}>
               <HugeiconsIcon icon={AccountSetting01Icon} size={18} />
               Change password
@@ -200,8 +209,8 @@ function AdminDashboard() {
             <h1>Social Media Directory</h1>
             <p>
               Manage confirmed public links across all woredas and civic sectors
-              in Akaki Kality. Click any woreda to view its dedicated details and
-              manage channels.
+              in Akaki Kality. Click any woreda to view its dedicated details
+              and manage channels.
             </p>
           </div>
           <Button
@@ -350,7 +359,9 @@ function AdminDashboard() {
               size={36}
               className="mx-auto text-blue-300 mb-3"
             />
-            <h3 className="font-semibold text-lg text-blue-950">No areas found</h3>
+            <h3 className="font-semibold text-lg text-blue-950">
+              No areas found
+            </h3>
             <p className="text-sm text-muted-foreground mt-1">
               Try adjusting your search query or filter selection.
             </p>
@@ -460,7 +471,9 @@ function AdminDashboard() {
                     <Button
                       variant="outline"
                       size="sm"
-                      render={<Link to="/admin/areas/$id" params={{ id: area._id }} />}
+                      render={
+                        <Link to="/admin/areas/$id" params={{ id: area._id }} />
+                      }
                       onClick={(e) => e.stopPropagation()}
                       className="border-blue-200 hover:border-blue-600 hover:bg-blue-50 hover:text-blue-900 text-xs font-semibold gap-1.5"
                     >

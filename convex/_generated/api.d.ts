@@ -14,6 +14,7 @@ import type * as http from "../http.js";
 import type * as lib_auth from "../lib/auth.js";
 import type * as lib_links from "../lib/links.js";
 import type * as seed from "../seed.js";
+import type * as surveys from "../surveys.js";
 import type * as users from "../users.js";
 
 import type {
@@ -29,6 +30,7 @@ declare const fullApi: ApiFromModules<{
   "lib/auth": typeof lib_auth;
   "lib/links": typeof lib_links;
   seed: typeof seed;
+  surveys: typeof surveys;
   users: typeof users;
 }>;
 

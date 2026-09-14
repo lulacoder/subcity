@@ -8,21 +8,34 @@ import { createFileRoute, Link } from '@tanstack/react-router'
 import { useEffect, useState } from 'react'
 
 import { Button } from '@/components/ui/button'
-import {
-  galleryImages,
-  landingCopy,
-  type Language,
-} from '@/lib/landing-content'
+import { FeedbackWidget } from '@/components/feedback-widget'
+import { galleryImages, landingCopy } from '@/lib/landing-content'
+import type { Language } from '@/lib/landing-content'
 
 export const Route = createFileRoute('/')({ component: Home })
 
-const languageList: Array<{ key: Language; label: string; native: string; flag: string }> = [
+const languageList: Array<{
+  key: Language
+  label: string
+  native: string
+  flag: string
+}> = [
   { key: 'am', label: 'Amharic', native: 'አማርኛ', flag: '🇪🇹' },
   { key: 'om', label: 'Afaan Oromoo', native: 'Afaan Oromoo', flag: '🇪🇹' },
   { key: 'en', label: 'English', native: 'English', flag: '🌐' },
 ]
 
-const metricLabels: Record<Language, { stat1: string; label1: string; stat2: string; label2: string; stat3: string; label3: string }> = {
+const metricLabels: Record<
+  Language,
+  {
+    stat1: string
+    label1: string
+    stat2: string
+    label2: string
+    stat3: string
+    label3: string
+  }
+> = {
   am: {
     stat1: '15+',
     label1: 'የክፍለ ከተማው ወረዳዎች',
@@ -35,9 +48,9 @@ const metricLabels: Record<Language, { stat1: string; label1: string; stat2: str
     stat1: '15+',
     label1: 'Aanoolee Kutaa Magaalaa',
     stat2: '54 km²',
-    label2: 'Bal\'ina Lafa',
+    label2: "Bal'ina Lafa",
     stat3: '100%',
-    label3: 'Teessoowwan Mirkanaa\'an',
+    label3: "Teessoowwan Mirkanaa'an",
   },
   en: {
     stat1: '15+',
@@ -57,7 +70,6 @@ function Home() {
   useEffect(() => {
     document.documentElement.lang = language
   }, [language])
-
 
   return (
     <main className="landing-page" id="home">
@@ -146,7 +158,9 @@ function Home() {
         </figure>
 
         <div className="hero-index" aria-hidden="true">
-          <span>📍 08° 53′ N &nbsp;•&nbsp; 38° 47′ E &nbsp;•&nbsp; Addis Ababa</span>
+          <span>
+            📍 08° 53′ N &nbsp;•&nbsp; 38° 47′ E &nbsp;•&nbsp; Addis Ababa
+          </span>
         </div>
       </section>
 
@@ -217,7 +231,10 @@ function Home() {
         </div>
         <div className="photo-grid">
           {galleryImages.map((image, index) => (
-            <figure key={image.src} className={`gallery-item item-${index + 1}`}>
+            <figure
+              key={image.src}
+              className={`gallery-item item-${index + 1}`}
+            >
               <img src={image.src} alt={image.alt} loading="lazy" />
               <div className="gallery-caption-overlay">
                 <span>{image.alt}</span>
@@ -233,12 +250,16 @@ function Home() {
           <span className="wordmark-mark">አቃ</span>
           <span>{copy.footer}</span>
         </div>
-        <p>© {new Date().getFullYear()} {copy.footer}. Civic Directory &amp; Public Information System.</p>
+        <p>
+          © {new Date().getFullYear()} {copy.footer}. Civic Directory &amp;
+          Public Information System.
+        </p>
         <Link to="/admin/login" className="admin-entry">
           <HugeiconsIcon icon={LockPasswordIcon} size={15} />
           Admin Portal
         </Link>
       </footer>
+      <FeedbackWidget language={language} />
     </main>
   )
 }
