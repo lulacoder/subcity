@@ -201,6 +201,37 @@ body {
   }
 }
 
+@keyframes skeleton-shimmer {
+  0% {
+    background-position: 180% 0;
+  }
+  100% {
+    background-position: -80% 0;
+  }
+}
+
+.skeleton-shimmer {
+  border: 1px solid color-mix(in srgb, var(--crimson-200) 72%, white);
+  background-color: var(--crimson-50);
+  background-image: linear-gradient(
+    105deg,
+    var(--crimson-50) 0%,
+    var(--crimson-50) 35%,
+    rgba(255, 255, 255, 0.92) 50%,
+    var(--crimson-50) 65%,
+    var(--crimson-50) 100%
+  );
+  background-size: 220% 100%;
+  box-shadow: 0 3px 12px rgba(11, 79, 138, 0.04);
+  animation: skeleton-shimmer 1.8s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton-shimmer {
+    animation: none;
+  }
+}
+
 /* ==========================================================================
    LANDING PAGE: CRIMSON CIVIC MASTERPIECE
    ========================================================================== */
