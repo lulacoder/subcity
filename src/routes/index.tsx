@@ -1,6 +1,5 @@
 import {
   ArrowRight02Icon,
-  Globe02Icon,
   LockPasswordIcon,
 } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
@@ -8,21 +7,13 @@ import { createFileRoute, Link } from '@tanstack/react-router'
 import { useEffect, useState } from 'react'
 
 import { FeedbackWidget } from '@/components/feedback-widget'
+import { LanguageMenu } from '@/components/language-menu'
 import { galleryImages, landingCopy } from '@/lib/landing-content'
 import type { Language } from '@/lib/landing-content'
 import '@/home-modern.css'
 import '@/home-mobile-fixes.css'
 
 export const Route = createFileRoute('/')({ component: Home })
-
-const languageList: Array<{
-  key: Language
-  native: string
-}> = [
-  { key: 'am', native: 'አማ' },
-  { key: 'om', native: 'OR' },
-  { key: 'en', native: 'EN' },
-]
 
 const metricLabels: Record<
   Language,
@@ -66,7 +57,6 @@ const uiCopy: Record<
   {
     utility: string
     city: string
-    admin: string
     brandTagline: string
     footerAdmin: string
     heroTop: string
@@ -90,7 +80,6 @@ const uiCopy: Record<
   am: {
     utility: 'ንጹህ፣ ደህንነቱ የተጠበቀ እና የበለጸገ አቃቂ ቃሊቲ',
     city: 'አዲስ አበባ • ኢትዮጵያ',
-    admin: 'አስተዳደር',
     brandTagline: 'ህዝብ • አገልግሎት • የተሻለ ነገ',
     footerAdmin: 'የአስተዳደር መግቢያ',
     heroTop: 'የክፍለ ከተማዎ መረጃ፣',
@@ -118,7 +107,6 @@ const uiCopy: Record<
   om: {
     utility: 'Aqaaqii Qaallittii qulqulluu, nageenya qabu fi badhaadhaa',
     city: 'Finfinnee • Itoophiyaa',
-    admin: 'Bulchiinsa',
     brandTagline: 'Uummata • Tajaajila • Boru fooyya’aa',
     footerAdmin: 'Karra bulchiinsaa',
     heroTop: 'Odeeffannoo kutaa magaalaa keessanii,',
@@ -146,7 +134,6 @@ const uiCopy: Record<
   en: {
     utility: 'Building a cleaner, safer and more prosperous Akaki Kality',
     city: 'Addis Ababa • Ethiopia',
-    admin: 'Admin',
     brandTagline: 'People • Service • Better tomorrow',
     footerAdmin: 'Admin Portal',
     heroTop: 'Your sub-city information,',
@@ -223,28 +210,7 @@ function Home() {
           </nav>
 
           <div className="civic-header-actions">
-            <label className="civic-language">
-              <HugeiconsIcon icon={Globe02Icon} size={16} />
-              <span className="sr-only">Select language</span>
-              <select
-                value={language}
-                onChange={(event) =>
-                  setLanguage(event.target.value as Language)
-                }
-                aria-label="Select language"
-              >
-                {languageList.map((item) => (
-                  <option key={item.key} value={item.key}>
-                    {item.native}
-                  </option>
-                ))}
-              </select>
-            </label>
-
-            <Link to="/admin/login" className="civic-admin-link">
-              <HugeiconsIcon icon={LockPasswordIcon} size={16} />
-              <span>{ui.admin}</span>
-            </Link>
+            <LanguageMenu value={language} onChange={setLanguage} />
           </div>
         </header>
       </div>
