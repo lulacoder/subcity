@@ -1,0 +1,288 @@
+.admin-app-shell {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 268px minmax(0, 1fr);
+  background: #f5f8fb;
+  color: #102a43;
+}
+
+.admin-app-sidebar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 22px 16px 18px;
+  border-right: 1px solid #dce7ef;
+  background: #ffffff;
+  box-shadow: 10px 0 34px rgba(12, 36, 68, 0.035);
+}
+
+.admin-app-brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 6px 8px 20px;
+  color: #0c2444;
+  text-decoration: none;
+}
+
+.admin-app-brand img {
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+  object-fit: contain;
+}
+
+.admin-app-brand span {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.admin-app-brand strong {
+  font-size: 0.94rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.admin-app-brand small {
+  color: #71869a;
+  font-size: 0.72rem;
+  font-weight: 650;
+}
+
+.admin-app-section-label {
+  padding: 14px 12px 7px;
+  color: #91a2b2;
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.admin-app-nav {
+  display: grid;
+  gap: 5px;
+}
+
+.admin-app-nav a,
+.admin-app-nav button {
+  width: 100%;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 11px;
+  background: transparent;
+  color: #52697e;
+  font: inherit;
+  font-size: 0.84rem;
+  font-weight: 700;
+  text-align: left;
+  text-decoration: none;
+  transition: background 150ms ease, color 150ms ease, box-shadow 150ms ease;
+}
+
+.admin-app-nav a:hover,
+.admin-app-nav button:hover {
+  background: #f0f6fa;
+  color: #0c2444;
+}
+
+.admin-app-nav a[data-active='true'] {
+  background: #eaf4fb;
+  color: #0b5f9e;
+  box-shadow: inset 3px 0 0 #2f80b9;
+}
+
+.admin-nav-survey-icon {
+  width: 18px;
+  display: inline-grid;
+  place-items: center;
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.admin-app-account {
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr) 34px;
+  align-items: center;
+  gap: 9px;
+  padding: 12px;
+  border: 1px solid #e0e9f0;
+  border-radius: 14px;
+  background: #f8fbfd;
+}
+
+.admin-account-avatar {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  background: #0c2444;
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 850;
+}
+
+.admin-account-copy {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-account-copy strong,
+.admin-account-copy small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.admin-account-copy strong {
+  color: #183650;
+  font-size: 0.77rem;
+}
+
+.admin-account-copy small {
+  margin-top: 1px;
+  color: #8092a3;
+  font-size: 0.67rem;
+}
+
+.admin-account-logout {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 9px;
+  background: transparent;
+  color: #7b8fa1;
+}
+
+.admin-account-logout:hover {
+  background: #fff1f2;
+  color: #b42318;
+}
+
+.admin-app-content {
+  min-width: 0;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.admin-app-content > .admin-shell {
+  display: block;
+  min-height: 100vh;
+  background: transparent;
+}
+
+.admin-app-content > .admin-shell > .admin-sidebar {
+  display: none !important;
+}
+
+.admin-app-content > .admin-shell > .admin-main {
+  width: 100%;
+  min-width: 0;
+  padding: 38px clamp(22px, 4vw, 54px) 60px;
+}
+
+.admin-app-content .survey-admin-page,
+.admin-app-content .survey-editor-page,
+.admin-app-content .admin-detail-layout {
+  min-height: 100vh;
+  background: transparent;
+}
+
+.admin-app-content .survey-admin-topbar {
+  display: none;
+}
+
+.admin-app-content .survey-admin-content {
+  width: 100%;
+  max-width: none;
+  padding: 38px clamp(22px, 4vw, 54px) 60px;
+}
+
+.admin-app-content .survey-editor-page {
+  padding: 32px clamp(22px, 4vw, 48px) 60px;
+}
+
+.admin-app-content .survey-editor-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  margin: -32px calc(clamp(22px, 4vw, 48px) * -1) 28px;
+  padding: 18px clamp(22px, 4vw, 48px);
+  border-bottom: 1px solid #e1e9f0;
+  background: rgba(255, 255, 255, 0.93);
+  backdrop-filter: blur(16px);
+}
+
+.admin-app-content .admin-detail-layout > header {
+  top: 0;
+}
+
+.admin-mobile-menu,
+.admin-nav-backdrop {
+  display: none;
+}
+
+@media (max-width: 960px) {
+  .admin-app-shell {
+    display: block;
+  }
+
+  .admin-app-sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: min(290px, calc(100vw - 44px));
+    transform: translateX(-105%);
+    transition: transform 180ms ease;
+    box-shadow: 22px 0 60px rgba(12, 36, 68, 0.18);
+  }
+
+  .admin-app-sidebar[data-open='true'] {
+    transform: translateX(0);
+  }
+
+  .admin-mobile-menu {
+    position: fixed;
+    top: 14px;
+    left: 14px;
+    z-index: 45;
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    border: 1px solid #dce7ef;
+    border-radius: 11px;
+    background: rgba(255, 255, 255, 0.96);
+    color: #0c2444;
+    box-shadow: 0 10px 28px rgba(12, 36, 68, 0.12);
+  }
+
+  .admin-nav-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 49;
+    display: block;
+    border: 0;
+    background: rgba(7, 25, 43, 0.42);
+    backdrop-filter: blur(2px);
+  }
+
+  .admin-app-content > .admin-shell > .admin-main,
+  .admin-app-content .survey-admin-content,
+  .admin-app-content .survey-editor-page {
+    padding-top: 76px;
+  }
+}
