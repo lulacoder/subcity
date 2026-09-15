@@ -11,6 +11,7 @@ import { FeedbackWidget } from '@/components/feedback-widget'
 import { galleryImages, landingCopy } from '@/lib/landing-content'
 import type { Language } from '@/lib/landing-content'
 import '@/home-modern.css'
+import '@/home-mobile-fixes.css'
 
 export const Route = createFileRoute('/')({ component: Home })
 
@@ -66,6 +67,8 @@ const uiCopy: Record<
     utility: string
     city: string
     admin: string
+    brandTagline: string
+    footerAdmin: string
     heroTop: string
     heroAccent: string
     primaryCta: string
@@ -88,6 +91,8 @@ const uiCopy: Record<
     utility: 'ንጹህ፣ ደህንነቱ የተጠበቀ እና የበለጸገ አቃቂ ቃሊቲ',
     city: 'አዲስ አበባ • ኢትዮጵያ',
     admin: 'አስተዳደር',
+    brandTagline: 'ህዝብ • አገልግሎት • የተሻለ ነገ',
+    footerAdmin: 'የአስተዳደር መግቢያ',
     heroTop: 'የክፍለ ከተማዎ መረጃ፣',
     heroAccent: 'ሁሉም በአንድ ቦታ',
     primaryCta: 'አቃቂ ቃሊቲን ይወቁ',
@@ -114,6 +119,8 @@ const uiCopy: Record<
     utility: 'Aqaaqii Qaallittii qulqulluu, nageenya qabu fi badhaadhaa',
     city: 'Finfinnee • Itoophiyaa',
     admin: 'Bulchiinsa',
+    brandTagline: 'Uummata • Tajaajila • Boru fooyya’aa',
+    footerAdmin: 'Karra bulchiinsaa',
     heroTop: 'Odeeffannoo kutaa magaalaa keessanii,',
     heroAccent: 'iddoo tokko keessatti',
     primaryCta: 'Aqaaqii Qaallittii baruuf',
@@ -140,6 +147,8 @@ const uiCopy: Record<
     utility: 'Building a cleaner, safer and more prosperous Akaki Kality',
     city: 'Addis Ababa • Ethiopia',
     admin: 'Admin',
+    brandTagline: 'People • Service • Better tomorrow',
+    footerAdmin: 'Admin Portal',
     heroTop: 'Your sub-city information,',
     heroAccent: 'all in one place',
     primaryCta: 'Explore Akaki Kality',
@@ -202,7 +211,7 @@ function Home() {
             />
             <span className="civic-brand-copy">
               <strong>{copy.footer}</strong>
-              <span>People • Service • Better tomorrow</span>
+              <span>{ui.brandTagline}</span>
             </span>
           </a>
 
@@ -435,7 +444,7 @@ function Home() {
                 />
                 <span className="civic-brand-copy">
                   <strong>{copy.footer}</strong>
-                  <span>People • Service • Better tomorrow</span>
+                  <span>{ui.brandTagline}</span>
                 </span>
               </a>
               <p>{ui.footerBody}</p>
@@ -466,7 +475,7 @@ function Home() {
             </span>
             <Link to="/admin/login" className="civic-footer-admin">
               <HugeiconsIcon icon={LockPasswordIcon} size={14} />
-              <span>Admin Portal</span>
+              <span>{ui.footerAdmin}</span>
             </Link>
           </div>
         </div>
