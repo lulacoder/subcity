@@ -18,11 +18,37 @@ export const Route = createFileRoute('/admin/login')({
   component: AdminLogin,
 })
 
+function EyeIcon({ hidden }: { hidden: boolean }) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        d="M2.7 12s3.4-5.5 9.3-5.5S21.3 12 21.3 12 17.9 17.5 12 17.5 2.7 12 2.7 12Z"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.7"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <circle cx="12" cy="12" r="2.5" fill="none" stroke="currentColor" strokeWidth="1.7" />
+      {hidden && (
+        <path
+          d="m4 4 16 16"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.7"
+          strokeLinecap="round"
+        />
+      )}
+    </svg>
+  )
+}
+
 function AdminLogin() {
   const navigate = useNavigate()
   const session = authClient.useSession()
   const [error, setError] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
 
   useEffect(() => {
     if (session.data?.user) void navigate({ to: '/admin' })
@@ -34,18 +60,28 @@ function AdminLogin() {
     setIsSubmitting(true)
 
     const formData = new FormData(event.currentTarget)
-    const result = await authClient.signIn.email({
-      email: String(formData.get('email') ?? '').trim(),
-      password: String(formData.get('password') ?? ''),
-    })
 
-    setIsSubmitting(false)
-    if (result.error) {
-      setError(result.error.message ?? 'Could not sign in.')
-      return
+    try {
+      const result = await authClient.signIn.email({
+        email: String(formData.get('email') ?? '').trim(),
+        password: String(formData.get('password') ?? ''),
+      })
+
+      if (result.error) {
+        setError(result.error.message ?? 'Could not sign in.')
+        return
+      }
+
+      await navigate({ to: '/admin' })
+    } catch (signInError) {
+      setError(
+        signInError instanceof Error
+          ? signInError.message
+          : 'Could not sign in. Please check your connection and try again.',
+      )
+    } finally {
+      setIsSubmitting(false)
     }
-
-    await navigate({ to: '/admin' })
   }
 
   return (
@@ -93,15 +129,26 @@ function AdminLogin() {
               </Field>
               <Field>
                 <FieldLabel htmlFor="password">Password</FieldLabel>
-                <Input
-                  id="password"
-                  name="password"
-                  type="password"
-                  placeholder="••••••••••••"
-                  autoComplete="current-password"
-                  minLength={12}
-                  required
-                />
+                <div className="admin-password-input-wrap">
+                  <Input
+                    id="password"
+                    name="password"
+                    type={showPassword ? 'text' : 'password'}
+                    placeholder="••••••••••••"
+                    autoComplete="current-password"
+                    minLength={12}
+                    required
+                  />
+                  <button
+                    type="button"
+                    className="admin-password-toggle"
+                    aria-label={showPassword ? 'Hide password' : 'Show password'}
+                    aria-pressed={showPassword}
+                    onClick={() => setShowPassword((current) => !current)}
+                  >
+                    <EyeIcon hidden={showPassword} />
+                  </button>
+                </div>
               </Field>
               <FieldError>{error}</FieldError>
               <Button
