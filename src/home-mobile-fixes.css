@@ -1,0 +1,41 @@
+@media (max-width: 560px) {
+  .civic-home .civic-header {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 8px;
+  }
+  .civic-home .civic-brand {
+    width: auto;
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
+  }
+  .civic-home .civic-brand-copy {
+    min-width: 0;
+    overflow: hidden;
+  }
+  .civic-home .civic-brand-copy strong {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .civic-home .civic-header-actions {
+    flex: 0 0 auto;
+    min-width: 0;
+  }
+  .civic-home .civic-language {
+    padding-inline: 6px;
+  }
+  .civic-home .civic-language select {
+    min-width: 38px;
+    width: 38px;
+  }
+}
+@media (max-width: 380px) {
+  .civic-home .civic-brand-copy {
+    display: none;
+  }
+  .civic-home .civic-brand {
+    flex: 0 0 auto;
+  }
+}
