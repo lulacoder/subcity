@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 220" role="img" aria-labelledby="title desc">
+  <title id="title">Akaki Kality civic mark</title>
+  <desc id="desc">A simplified civic mark inspired by the Akaki Kality Sub-city emblem</desc>
+  <defs>
+    <linearGradient id="ring" x1="42" y1="22" x2="174" y2="198" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F8C51C"/>
+      <stop offset=".48" stop-color="#F8C51C"/>
+      <stop offset=".72" stop-color="#6BB6D8"/>
+      <stop offset="1" stop-color="#2F80B9"/>
+    </linearGradient>
+  </defs>
+  <circle cx="110" cy="110" r="102" fill="white" stroke="url(#ring)" stroke-width="8"/>
+  <g fill="#F8C51C">
+    <rect x="107" y="27" width="6" height="19" rx="3"/>
+    <rect x="72" y="38" width="6" height="18" rx="3" transform="rotate(-28 75 47)"/>
+    <rect x="142" y="38" width="6" height="18" rx="3" transform="rotate(28 145 47)"/>
+    <rect x="49" y="62" width="6" height="16" rx="3" transform="rotate(-48 52 70)"/>
+    <rect x="165" y="62" width="6" height="16" rx="3" transform="rotate(48 168 70)"/>
+  </g>
+  <g>
+    <circle cx="81" cy="72" r="10" fill="#2F80B9"/>
+    <path d="M72 86c7 4 13 9 18 16l8-15 8 5-14 28-13-20-16 12-6-9 15-17Z" fill="#2F80B9"/>
+    <circle cx="110" cy="61" r="10" fill="#F8C51C"/>
+    <path d="M105 76 91 51l8-5 11 19 12-21 8 5-15 27-1 44h-9l-1-44Z" fill="#F8C51C"/>
+    <circle cx="139" cy="72" r="10" fill="#C71C6B"/>
+    <path d="M148 86c-7 4-13 9-18 16l-8-15-8 5 14 28 13-20 16 12 6-9-15-17Z" fill="#C71C6B"/>
+  </g>
+  <g fill="#101828">
+    <path d="M100 150c-19-4-34-12-46-25-8-9-13-21-15-34-1-6 6-9 10-5l18 20c5 6 10 10 17 13l22 9-6 22Z"/>
+    <path d="M120 150c19-4 34-12 46-25 8-9 13-21 15-34 1-6-6-9-10-5l-18 20c-5 6-10 10-17 13l-22 9 6 22Z"/>
+    <path d="M78 114 59 94c-5-5-11 0-8 6l16 29 11-15ZM142 114l19-20c5-5 11 0 8 6l-16 29-11-15Z"/>
+  </g>
+  <path d="M110 129v36" stroke="#101828" stroke-width="8" stroke-linecap="round"/>
+</svg>
