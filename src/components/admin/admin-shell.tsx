@@ -26,7 +26,7 @@ import '@/admin-modern.css'
 
 function MenuIcon() {
   return (
-    <svg viewBox="0 0 24 24" aria-hidden="true">
+    <svg className="h-5 w-5" viewBox="0 0 24 24" aria-hidden="true">
       <path
         d="M5 7h14M5 12h14M5 17h14"
         fill="none"
