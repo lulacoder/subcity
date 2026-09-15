@@ -185,7 +185,7 @@ function AdminAreaDetailPage() {
       ? sortedAreas[currentIndex + 1]
       : null
 
-  if (session.isPending || allAreasQuery.isPending) {
+  if (session.isPending) {
     return <AreaDetailSkeleton />
   }
 
@@ -208,6 +208,10 @@ function AdminAreaDetailPage() {
         </Card>
       </main>
     )
+  }
+
+  if (allAreasQuery.isPending) {
+    return <AreaDetailSkeleton />
   }
 
   if (allAreasQuery.error) {

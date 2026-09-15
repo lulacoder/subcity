@@ -6,7 +6,7 @@ import { ConvexReactClient } from 'convex/react'
 import type { ComponentProps } from 'react'
 import ReactDOM from 'react-dom/client'
 
-import { convexAuthClient } from './lib/auth-client'
+import { authClient } from './lib/auth-client'
 import { getRouter } from './router'
 
 const convexUrl = import.meta.env.VITE_CONVEX_URL
@@ -25,7 +25,7 @@ const queryClient = new QueryClient({
 
 convexQueryClient.connect(queryClient)
 const router = getRouter()
-const providerAuthClient = convexAuthClient as unknown as ComponentProps<
+const providerAuthClient = authClient as unknown as ComponentProps<
   typeof ConvexBetterAuthProvider
 >['authClient']
 

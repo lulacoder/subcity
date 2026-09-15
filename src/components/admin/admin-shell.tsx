@@ -4,8 +4,8 @@ import {
   Logout01Icon,
 } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
-import { useMutation } from '@tanstack/react-query'
-import { Link, useLocation } from '@tanstack/react-router'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { Link, useLocation, useNavigate } from '@tanstack/react-router'
 import { useMutation as useConvexMutation } from 'convex/react'
 import { useState } from 'react'
 import type { ReactNode } from 'react'
@@ -40,6 +40,8 @@ function MenuIcon() {
 
 export function AdminShell({ children }: { children: ReactNode }) {
   const location = useLocation()
+  const navigate = useNavigate()
+  const queryClient = useQueryClient()
   const session = authClient.useSession()
   const [navOpen, setNavOpen] = useState(false)
   const [logoutOpen, setLogoutOpen] = useState(false)
@@ -60,7 +62,8 @@ export function AdminShell({ children }: { children: ReactNode }) {
     setLoggingOut(true)
     try {
       await authClient.signOut()
-      window.location.assign('/admin/login')
+      queryClient.clear()
+      await navigate({ to: '/admin/login', replace: true })
     } finally {
       setLoggingOut(false)
       setLogoutOpen(false)
@@ -132,13 +135,13 @@ export function AdminShell({ children }: { children: ReactNode }) {
 
         <div className="admin-app-account">
           <div className="admin-account-avatar" aria-hidden="true">
-            {(session.data?.user?.name || session.data?.user?.email || 'A')
+            {(session.data?.user.name || session.data?.user.email || 'A')
               .slice(0, 1)
               .toUpperCase()}
           </div>
           <div className="admin-account-copy">
-            <strong>{session.data?.user?.name || 'Administrator'}</strong>
-            <small>{session.data?.user?.email || 'Private admin account'}</small>
+            <strong>{session.data?.user.name || 'Administrator'}</strong>
+            <small>{session.data?.user.email || 'Private admin account'}</small>
           </div>
           <button
             type="button"

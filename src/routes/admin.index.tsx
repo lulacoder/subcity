@@ -16,7 +16,7 @@ import {
 } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { convexQuery } from '@convex-dev/react-query'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import {
   createFileRoute,
   Link,
@@ -56,6 +56,7 @@ const platformDetails = {
 
 function AdminDashboard() {
   const navigate = useNavigate()
+  const queryClient = useQueryClient()
   const session = authClient.useSession()
   const [isCreateOpen, setIsCreateOpen] = useState(false)
   const [isPasswordOpen, setIsPasswordOpen] = useState(false)
@@ -152,7 +153,8 @@ function AdminDashboard() {
 
   async function signOut() {
     await authClient.signOut()
-    window.location.assign('/admin/login')
+    queryClient.clear()
+    await navigate({ to: '/admin/login', replace: true })
   }
 
   return (
