@@ -20,7 +20,7 @@ export const Route = createFileRoute('/admin/login')({
 
 function EyeIcon({ hidden }: { hidden: boolean }) {
   return (
-    <svg viewBox="0 0 24 24" aria-hidden="true">
+    <svg className="h-5 w-5" viewBox="0 0 24 24" aria-hidden="true">
       <path
         d="M2.7 12s3.4-5.5 9.3-5.5S21.3 12 21.3 12 17.9 17.5 12 17.5 2.7 12 2.7 12Z"
         fill="none"
@@ -29,7 +29,14 @@ function EyeIcon({ hidden }: { hidden: boolean }) {
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-      <circle cx="12" cy="12" r="2.5" fill="none" stroke="currentColor" strokeWidth="1.7" />
+      <circle
+        cx="12"
+        cy="12"
+        r="2.5"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.7"
+      />
       {hidden && (
         <path
           d="m4 4 16 16"
@@ -129,7 +136,7 @@ function AdminLogin() {
               </Field>
               <Field>
                 <FieldLabel htmlFor="password">Password</FieldLabel>
-                <div className="admin-password-input-wrap">
+                <div className="relative">
                   <Input
                     id="password"
                     name="password"
@@ -138,10 +145,11 @@ function AdminLogin() {
                     autoComplete="current-password"
                     minLength={12}
                     required
+                    className="pr-12"
                   />
                   <button
                     type="button"
-                    className="admin-password-toggle"
+                    className="absolute right-3 top-1/2 grid h-8 w-8 -translate-y-1/2 place-items-center rounded-lg text-blue-200/70 transition hover:bg-white/10 hover:text-white"
                     aria-label={showPassword ? 'Hide password' : 'Show password'}
                     aria-pressed={showPassword}
                     onClick={() => setShowPassword((current) => !current)}
