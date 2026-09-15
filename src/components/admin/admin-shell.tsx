@@ -2,14 +2,13 @@ import {
   AccountSetting01Icon,
   Link01Icon,
   Logout01Icon,
-  Menu01Icon,
 } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
-import { convexQuery } from '@convex-dev/react-query'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
 import { Link, useLocation } from '@tanstack/react-router'
 import { useMutation as useConvexMutation } from 'convex/react'
 import { useState } from 'react'
+import type { ReactNode } from 'react'
 
 import { api } from '../../../convex/_generated/api'
 import { PasswordDialog } from '@/components/admin/password-dialog'
@@ -25,7 +24,21 @@ import {
 import { authClient } from '@/lib/auth-client'
 import '@/admin-modern.css'
 
-export function AdminShell({ children }: { children: React.ReactNode }) {
+function MenuIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        d="M5 7h14M5 12h14M5 17h14"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+      />
+    </svg>
+  )
+}
+
+export function AdminShell({ children }: { children: ReactNode }) {
   const location = useLocation()
   const session = authClient.useSession()
   const [navOpen, setNavOpen] = useState(false)
@@ -39,7 +52,8 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
   if (location.pathname === '/admin/login') return <>{children}</>
 
   const directoryActive =
-    location.pathname === '/admin' || location.pathname.startsWith('/admin/areas')
+    location.pathname === '/admin' ||
+    location.pathname.startsWith('/admin/areas')
   const surveysActive = location.pathname.startsWith('/admin/surveys')
 
   async function confirmLogout() {
@@ -61,7 +75,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
         aria-label="Open admin navigation"
         onClick={() => setNavOpen(true)}
       >
-        <HugeiconsIcon icon={Menu01Icon} size={20} />
+        <MenuIcon />
       </button>
 
       {navOpen && (
@@ -75,8 +89,16 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
 
       <aside className="admin-app-sidebar" data-open={navOpen}>
         <div>
-          <Link className="admin-app-brand" to="/" onClick={() => setNavOpen(false)}>
-            <img src="/images/akaki-kality-mark.svg" alt="" aria-hidden="true" />
+          <Link
+            className="admin-app-brand"
+            to="/"
+            onClick={() => setNavOpen(false)}
+          >
+            <img
+              src="/images/akaki-kality-mark.svg"
+              alt=""
+              aria-hidden="true"
+            />
             <span>
               <strong>Akaki Kality</strong>
               <small>Administration</small>
@@ -146,14 +168,23 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
           <DialogHeader>
             <DialogTitle>Sign out of the admin portal?</DialogTitle>
             <DialogDescription>
-              You will need to sign in again before managing the directory or surveys.
+              You will need to sign in again before managing the directory or
+              surveys.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter className="mt-5">
-            <Button variant="outline" onClick={() => setLogoutOpen(false)} disabled={loggingOut}>
+            <Button
+              variant="outline"
+              onClick={() => setLogoutOpen(false)}
+              disabled={loggingOut}
+            >
               Stay signed in
             </Button>
-            <Button variant="destructive" onClick={() => void confirmLogout()} disabled={loggingOut}>
+            <Button
+              variant="destructive"
+              onClick={() => void confirmLogout()}
+              disabled={loggingOut}
+            >
               {loggingOut ? 'Signing out…' : 'Sign out'}
             </Button>
           </DialogFooter>
