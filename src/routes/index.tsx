@@ -7,6 +7,7 @@ import { createFileRoute, Link } from '@tanstack/react-router'
 import { useEffect, useState } from 'react'
 
 import { FeedbackWidget } from '@/components/feedback-widget'
+import { FooterSocialLinks } from '@/components/footer-social-links'
 import { LanguageMenu } from '@/components/language-menu'
 import { galleryImages, landingCopy } from '@/lib/landing-content'
 import type { Language } from '@/lib/landing-content'
@@ -414,6 +415,7 @@ function Home() {
                 </span>
               </a>
               <p>{ui.footerBody}</p>
+              <FooterSocialLinks language={language} />
             </div>
 
             <div>
