@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react'
 import { FeedbackWidget } from '@/components/feedback-widget'
 import { FooterSocialLinks } from '@/components/footer-social-links'
 import { LanguageMenu } from '@/components/language-menu'
+import { PROSPERITY_PARTY_LOGO_URL } from '@/lib/brand'
 import { galleryImages, landingCopy } from '@/lib/landing-content'
 import type { Language } from '@/lib/landing-content'
 import '@/home-modern.css'
@@ -193,7 +194,7 @@ function Home() {
           <a className="civic-brand" href="#home" aria-label={copy.nav.home}>
             <img
               className="civic-brand-logo"
-              src="/images/akaki-kality-mark.svg"
+              src={PROSPERITY_PARTY_LOGO_URL}
               alt=""
               aria-hidden="true"
             />
@@ -252,7 +253,7 @@ function Home() {
             </div>
 
             <div className="civic-hero-badge" aria-hidden="true">
-              <img src="/images/akaki-kality-mark.svg" alt="" />
+              <img src={PROSPERITY_PARTY_LOGO_URL} alt="" />
             </div>
 
             <div className="civic-hero-card" lang={language}>
@@ -405,7 +406,7 @@ function Home() {
               <a className="civic-brand" href="#home">
                 <img
                   className="civic-brand-logo"
-                  src="/images/akaki-kality-mark.svg"
+                  src={PROSPERITY_PARTY_LOGO_URL}
                   alt=""
                   aria-hidden="true"
                 />
