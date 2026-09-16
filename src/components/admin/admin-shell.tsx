@@ -22,6 +22,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import { authClient } from '@/lib/auth-client'
+import { PROSPERITY_PARTY_LOGO_URL } from '@/lib/brand'
 import '@/admin-modern.css'
 
 function MenuIcon() {
@@ -98,7 +99,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
             onClick={() => setNavOpen(false)}
           >
             <img
-              src="/images/akaki-kality-mark.svg"
+              src={PROSPERITY_PARTY_LOGO_URL}
               alt=""
               aria-hidden="true"
             />
