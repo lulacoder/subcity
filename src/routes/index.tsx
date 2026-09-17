@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react'
 import { FeedbackWidget } from '@/components/feedback-widget'
 import { FooterSocialLinks } from '@/components/footer-social-links'
 import { LanguageMenu } from '@/components/language-menu'
+import { ProsperityOverview } from '@/components/prosperity-overview'
 import { PROSPERITY_PARTY_LOGO_URL } from '@/lib/brand'
 import { galleryImages, landingCopy } from '@/lib/landing-content'
 import type { Language } from '@/lib/landing-content'
@@ -95,8 +96,8 @@ const uiCopy: Record<
     quickLabel: 'በፍጥነት ይፈልጉ',
     quickCards: [
       { title: 'ስለ አቃቂ ቃሊቲ', body: 'ስለ ክፍለ ከተማው አጭር መግቢያ።' },
-      { title: 'ራዕያችን', body: 'ክፍት፣ ተሳታፊ እና ለኑሮ ምቹ ከተማ።' },
-      { title: 'እሴቶቻችን', body: 'የህዝብ አገልግሎታችንን የሚመሩ መርሆዎች።' },
+      { title: 'የፓርቲው ራዕይ', body: 'የ2018፣ 2023 እና 2050 የራዕይ ምዕራፎች።' },
+      { title: 'የፓርቲው እሴቶች', body: 'የቀረቡትን ዋና ዋና እሴቶች ይመልከቱ።' },
       { title: 'ማዕከለ ስዕላት', body: 'የቦታዎች፣ ሰዎች እና ማህበረሰብ ትዕይንቶች።' },
     ],
     valuesBody: 'የህዝብ አገልግሎት ለእኛ የቢሮ ስራ ብቻ አይደለም። ሰዎች በቀላሉ ሊረዱት፣ ሊደርሱበት እና ሊተማመኑበት የሚችሉ ልምድ መፍጠር ነው።',
@@ -122,8 +123,8 @@ const uiCopy: Record<
     quickLabel: 'Saffisaan ilaali',
     quickCards: [
       { title: 'Waa’ee kutaa magaalaa', body: 'Seensa gabaabaa waa’ee Aqaaqii Qaallittii.' },
-      { title: 'Mul’ata keenya', body: 'Kutaa magaalaa banaa, hirmaachisaa fi jireenyaaf mijataa.' },
-      { title: 'Duudhaa keenya', body: 'Qajeelfamoota tajaajila uummataa keenya.' },
+      { title: 'Mul’ata paartichaa', body: 'Sadarkaa mul’ataa 2018, 2023 fi 2050.' },
+      { title: 'Duudhaa paartichaa', body: 'Duudhaa ijoo dhiyaatan ilaali.' },
       { title: 'Kuusaa suuraa', body: 'Iddoowwan, namootaa fi yeroo hawaasaa.' },
     ],
     valuesBody: 'Tajaajilli uummataa hojii waajjiraa qofa miti. Muuxannoo namoonni salphaatti hubatan, argatan fi itti amananii fayyadaman ijaaruu dha.',
@@ -149,8 +150,8 @@ const uiCopy: Record<
     quickLabel: 'Find it faster',
     quickCards: [
       { title: 'About the sub-city', body: 'A clear introduction to Akaki Kality and its character.' },
-      { title: 'Our vision', body: 'A more open, participatory and liveable sub-city.' },
-      { title: 'Civic values', body: 'The principles guiding public service and shared progress.' },
+      { title: 'Party vision', body: 'The 2018, 2023 and 2050 vision milestones.' },
+      { title: 'Party values', body: 'Explore the principal values presented by the party.' },
       { title: 'Photo gallery', body: 'Places, people and moments from across the community.' },
     ],
     valuesBody: 'Public service should not feel like paperwork. It should be an experience people can understand, access and trust — with clarity at every step.',
@@ -265,6 +266,8 @@ function Home() {
         </div>
       </section>
 
+      <ProsperityOverview language={language} />
+
       <section className="civic-shell civic-quick-wrap" aria-label={ui.quickLabel}>
         <div className="civic-quick-grid">
           {ui.quickCards.map((item, index) => (
@@ -329,47 +332,6 @@ function Home() {
                 loading="lazy"
               />
             </figure>
-          </div>
-        </div>
-      </section>
-
-      <div className="civic-vision-wrap" id="vision">
-        <section className="civic-vision" lang={language}>
-          <div className="civic-vision-media">
-            <img
-              src="/images/tree-planting.jpeg"
-              alt="Tree planting and environmental initiative at Akaki Kality"
-              loading="lazy"
-            />
-          </div>
-          <div className="civic-vision-copy">
-            <p className="civic-section-kicker">{copy.visionLabel}</p>
-            <h2>{copy.visionTitle}</h2>
-            <p>{copy.visionBody}</p>
-          </div>
-        </section>
-      </div>
-
-      <section className="civic-section" id="values" lang={language}>
-        <div className="civic-shell">
-          <div className="civic-values-heading">
-            <div>
-              <p className="civic-section-kicker">{copy.valuesLabel}</p>
-              <h2 className="civic-section-heading">{copy.valuesTitle}</h2>
-            </div>
-            <p>{ui.valuesBody}</p>
-          </div>
-
-          <div className="civic-values-grid">
-            {copy.values.map((value, index) => (
-              <article key={value.title} className="civic-value-card">
-                <span className="civic-value-index">
-                  {String(index + 1).padStart(2, '0')}
-                </span>
-                <h3>{value.title}</h3>
-                <p>{value.body}</p>
-              </article>
-            ))}
           </div>
         </div>
       </section>
