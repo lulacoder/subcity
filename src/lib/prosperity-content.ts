@@ -35,7 +35,7 @@ export const prosperityContent: Record<Language, ProsperityContent> = {
     visionTitle: 'ከተስፋ ወደ ዓለም አቀፍ የብልፅግና አርአያ',
     visionIntro: 'ፓርቲው ያቀረበው የረጅም ጊዜ የራዕይ መስመር።',
     milestones: [
-      { year: '2018', text: 'ከተስፋ ወደ ምጨበጥ ብርሃን' },
+      { year: '2018', text: 'ከተስፋ ወደ ተጨባጭ ብርሃን' },
       { year: '2023', text: 'የአፍሪካ ብልፅግና ተምሳሌት' },
       { year: '2050', text: 'ዓለም አቀፍ ብልፅግና አርአያ' },
     ],
