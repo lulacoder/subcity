@@ -1,0 +1,1 @@
+Temporary branch marker for replacing corrupted Prosperity event image blobs with valid JPEG binaries.
