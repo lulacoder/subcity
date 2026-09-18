@@ -1,7 +1,11 @@
 .prosperity-overview {
-  padding: 84px 0 104px;
+  padding: 108px 0 116px;
   background:
-    radial-gradient(circle at 12% 5%, rgba(244, 188, 23, 0.08), transparent 22%),
+    radial-gradient(
+      circle at 12% 5%,
+      rgba(244, 188, 23, 0.08),
+      transparent 22%
+    ),
     linear-gradient(180deg, #ffffff 0%, #f7fafc 100%);
   border-bottom: 1px solid rgba(12, 36, 68, 0.07);
 }
@@ -28,7 +32,8 @@
   min-height: 410px;
   margin: 0;
   overflow: hidden;
-  border-radius: 28px;
+  border: 1px solid #d3e0e9;
+  border-radius: 5px 5px 44px 5px;
   background: #dce7ef;
   box-shadow: 0 20px 55px rgba(12, 36, 68, 0.11);
 }
@@ -41,6 +46,8 @@
 
 .prosperity-photo-featured {
   min-height: 450px !important;
+  margin-top: 42px !important;
+  border-radius: 5px 44px 5px 5px !important;
 }
 
 .prosperity-vision,
@@ -61,7 +68,9 @@
   max-width: 760px;
   margin: 0;
   color: var(--civic-navy);
-  font-size: clamp(2rem, 4vw, 3.4rem);
+  font-family: var(--font-heading);
+  font-size: clamp(2.35rem, 4.4vw, 4rem);
+  font-weight: 540;
   line-height: 1.08;
   letter-spacing: -0.045em;
   text-wrap: balance;
@@ -76,44 +85,52 @@
 
 .prosperity-timeline {
   margin-top: 34px;
+  position: relative;
+  overflow: hidden;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
+  gap: 0;
+  padding: 34px;
+  border-radius: 5px 5px 54px 5px;
+  background: var(--civic-navy-deep);
+  color: white;
+}
+
+.prosperity-timeline::before {
+  content: '';
+  position: absolute;
+  top: 80px;
+  right: 34px;
+  left: 34px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.2);
 }
 
 .prosperity-milestone {
-  min-height: 210px;
+  min-height: 205px;
   position: relative;
-  overflow: hidden;
-  padding: 24px;
-  border: 1px solid var(--civic-border);
-  border-radius: 22px;
-  background: white;
-  box-shadow: 0 10px 28px rgba(18, 54, 84, 0.05);
+  padding: 8px 28px 0 0;
+  border: 0;
+  background: transparent;
 }
 
-.prosperity-milestone::after {
+.prosperity-milestone::before {
   content: '';
   position: absolute;
-  right: -30px;
-  bottom: -44px;
-  width: 116px;
-  height: 116px;
-  border: 24px solid rgba(47, 128, 185, 0.07);
+  top: 42px;
+  left: 0;
+  z-index: 1;
+  width: 11px;
+  height: 11px;
+  border: 3px solid var(--civic-navy-deep);
   border-radius: 50%;
-}
-
-.prosperity-milestone:nth-child(2)::after {
-  border-color: rgba(244, 188, 23, 0.11);
-}
-
-.prosperity-milestone:nth-child(3)::after {
-  border-color: rgba(199, 28, 107, 0.08);
+  background: var(--civic-gold-bright);
+  box-shadow: 0 0 0 1px rgba(242, 189, 53, 0.7);
 }
 
 .prosperity-milestone-index {
   display: block;
-  color: #95a8b9;
+  color: rgba(255, 255, 255, 0.48);
   font-size: 0.72rem;
   font-weight: 850;
   letter-spacing: 0.12em;
@@ -121,8 +138,8 @@
 
 .prosperity-milestone strong {
   display: block;
-  margin-top: 28px;
-  color: var(--civic-blue);
+  margin-top: 48px;
+  color: var(--civic-gold-bright);
   font-size: 2.35rem;
   letter-spacing: -0.055em;
 }
@@ -131,7 +148,7 @@
   position: relative;
   z-index: 1;
   margin: 9px 0 0;
-  color: #546b80;
+  color: rgba(255, 255, 255, 0.72);
   line-height: 1.65;
 }
 
@@ -142,8 +159,8 @@
   grid-template-columns: 180px 1fr;
   gap: 28px;
   align-items: center;
-  border-radius: 24px;
-  background: var(--civic-navy);
+  border-radius: 5px;
+  background: var(--civic-blue);
   color: white;
 }
 
@@ -175,7 +192,7 @@
 
 .prosperity-value-card {
   border: 1px solid var(--civic-border);
-  border-radius: 20px;
+  border-radius: 5px;
   background: white;
   box-shadow: 0 8px 24px rgba(18, 54, 84, 0.04);
 }
@@ -198,7 +215,7 @@
 .prosperity-value-card summary:focus-visible {
   outline: 2px solid var(--civic-gold);
   outline-offset: 2px;
-  border-radius: 18px;
+  border-radius: 4px;
 }
 
 .prosperity-value-number {
@@ -206,8 +223,8 @@
   height: 36px;
   display: grid;
   place-items: center;
-  border-radius: 12px;
-  background: var(--civic-blue-soft);
+  border-radius: 50%;
+  background: var(--civic-blue-light);
   color: var(--civic-blue);
   font-size: 0.74rem;
   font-weight: 850;
@@ -246,7 +263,7 @@
   min-height: 210px;
   padding: 24px;
   border: 1px solid var(--civic-border);
-  border-radius: 22px;
+  border-radius: 5px 5px 30px 5px;
   background: white;
 }
 
@@ -277,9 +294,36 @@
   }
 
   .prosperity-photo-grid,
-  .prosperity-timeline,
   .prosperity-objectives-grid {
     grid-template-columns: 1fr;
+  }
+
+  .prosperity-timeline {
+    grid-template-columns: 1fr;
+    padding: 30px;
+  }
+
+  .prosperity-timeline::before {
+    top: 30px;
+    right: auto;
+    bottom: 30px;
+    left: 36px;
+    width: 1px;
+    height: auto;
+  }
+
+  .prosperity-milestone {
+    min-height: 0;
+    padding: 4px 0 34px 42px;
+  }
+
+  .prosperity-milestone::before {
+    top: 8px;
+    left: 1px;
+  }
+
+  .prosperity-milestone strong {
+    margin-top: 12px;
   }
 
   .prosperity-photo-grid figure,

@@ -20,14 +20,14 @@ export function ProsperityOverview({ language }: { language: Language }) {
         <div className="prosperity-photo-grid" aria-label={content.eyebrow}>
           <figure>
             <img
-              src="/images/prosperity-event-1.jpeg"
+              src="/images/community-welcome.jpeg"
               alt={content.photoAltOne}
               loading="lazy"
             />
           </figure>
           <figure className="prosperity-photo-featured">
             <img
-              src="/images/prosperity-event-2.jpg"
+              src="/images/cultural-celebration.jpeg"
               alt={content.photoAltTwo}
               loading="lazy"
             />
@@ -75,7 +75,7 @@ export function ProsperityOverview({ language }: { language: Language }) {
 
           <div className="prosperity-values-grid">
             {content.values.map((value, index) => (
-              <details key={value.title} className="prosperity-value-card">
+              <details key={value.title} className="prosperity-value-card" open>
                 <summary>
                   <span className="prosperity-value-number">
                     {String(index + 1).padStart(2, '0')}
@@ -104,7 +104,10 @@ export function ProsperityOverview({ language }: { language: Language }) {
 
           <div className="prosperity-objectives-grid">
             {content.objectives.map((objective, index) => (
-              <article key={objective.title} className="prosperity-objective-card">
+              <article
+                key={objective.title}
+                className="prosperity-objective-card"
+              >
                 <span>{String(index + 1).padStart(2, '0')}</span>
                 <h3>{objective.title}</h3>
                 <p>{objective.body}</p>

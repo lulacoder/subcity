@@ -90,7 +90,7 @@ export const createWoreda = mutation({
       )
       .first()
 
-    if (!subcity) throw new Error('Seed the Akaki Kality sub-city first.')
+    if (!subcity) throw new Error('Seed the Akaki Kality Prosperity Party (PR) area first.')
 
     return ctx.db.insert('areas', {
       type: 'woreda',

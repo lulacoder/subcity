@@ -130,7 +130,7 @@ async function seedDirectory(
     subcity = (await ctx.db.get(subcityId)) ?? undefined
   }
 
-  if (!subcity) throw new Error('Could not create the Akaki Kality sub-city.')
+  if (!subcity) throw new Error('Could not create the Akaki Kality Prosperity Party (PR) area.')
 
   const existingWoredaNumbers = new Set(
     existingAreas

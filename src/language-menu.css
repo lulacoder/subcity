@@ -10,7 +10,7 @@
   gap: 8px;
   padding: 0 12px;
   border: 1px solid #d9e4ee;
-  border-radius: 13px;
+  border-radius: 4px;
   background: #ffffff;
   color: #0c2444;
   font: inherit;
@@ -34,7 +34,7 @@
 .language-menu-option img {
   width: 22px;
   height: 16px;
-  border-radius: 3px;
+  border-radius: 2px;
   object-fit: cover;
   box-shadow: 0 0 0 1px rgba(12, 36, 68, 0.08);
 }
@@ -55,9 +55,9 @@
   top: calc(100% + 10px);
   right: 0;
   width: 230px;
-  padding: 7px;
+  padding: 6px;
   border: 1px solid #dbe6ef;
-  border-radius: 16px;
+  border-radius: 6px;
   background: rgba(255, 255, 255, 0.98);
   box-shadow: 0 18px 50px rgba(12, 36, 68, 0.16);
   backdrop-filter: blur(18px);
@@ -69,9 +69,9 @@
   grid-template-columns: 24px minmax(0, 1fr) auto;
   align-items: center;
   gap: 10px;
-  padding: 10px 11px;
+  padding: 9px 10px;
   border: 0;
-  border-radius: 11px;
+  border-radius: 4px;
   background: transparent;
   color: #173550;
   text-align: left;

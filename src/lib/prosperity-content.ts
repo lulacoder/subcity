@@ -37,7 +37,7 @@ export const prosperityContent: Record<Language, ProsperityContent> = {
     milestones: [
       { year: '2018', text: 'ከተስፋ ወደ ተጨባጭ ብርሃን' },
       { year: '2023', text: 'የአፍሪካ ብልፅግና ተምሳሌት' },
-      { year: '2050', text: 'ዓለም አቀፍ ብልፅግና አርአያ' },
+      { year: '2040', text: 'ዓለም አቀፍ ብልፅግና አርአያ' },
     ],
     goalLabel: 'ጥቅል ዓላማ',
     goalTitle: 'የብልፅግና ጥቅል ዓላማ',
@@ -97,7 +97,7 @@ export const prosperityContent: Record<Language, ProsperityContent> = {
     milestones: [
       { year: '2018', text: 'Abdii irraa gara ifa qabatamaatti' },
       { year: '2023', text: 'Fakkeenya badhaadhina Afrikaa' },
-      { year: '2050', text: 'Fakkeenya badhaadhina addunyaa' },
+      { year: '2040', text: 'Fakkeenya badhaadhina addunyaa' },
     ],
     goalLabel: 'Kaayyoo waliigalaa',
     goalTitle: 'Kaayyoo waliigalaa badhaadhinaa',
@@ -157,7 +157,7 @@ export const prosperityContent: Record<Language, ProsperityContent> = {
     milestones: [
       { year: '2018', text: 'From hope toward tangible light' },
       { year: '2023', text: 'A model of African prosperity' },
-      { year: '2050', text: 'A global model of prosperity' },
+      { year: '2040', text: 'A global model of prosperity' },
     ],
     goalLabel: 'Overall goal',
     goalTitle: 'Overall prosperity goal',

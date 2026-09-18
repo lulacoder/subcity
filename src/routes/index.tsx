@@ -1,59 +1,21 @@
-import {
-  ArrowRight02Icon,
-  LockPasswordIcon,
-} from '@hugeicons/core-free-icons'
+import { ArrowRight02Icon, LockPasswordIcon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { useEffect, useState } from 'react'
 
+import { BrandLogo } from '@/components/brand-logo'
 import { FeedbackWidget } from '@/components/feedback-widget'
 import { FooterSocialLinks } from '@/components/footer-social-links'
 import { LanguageMenu } from '@/components/language-menu'
+import { LeadershipSection } from '@/components/leadership-section'
 import { ProsperityOverview } from '@/components/prosperity-overview'
-import { PROSPERITY_PARTY_LOGO_URL } from '@/lib/brand'
+import { OFFICIAL_BANNER_URL } from '@/lib/brand'
 import { galleryImages, landingCopy } from '@/lib/landing-content'
 import type { Language } from '@/lib/landing-content'
 import '@/home-modern.css'
 import '@/home-mobile-fixes.css'
 
 export const Route = createFileRoute('/')({ component: Home })
-
-const metricLabels: Record<
-  Language,
-  {
-    stat1: string
-    label1: string
-    stat2: string
-    label2: string
-    stat3: string
-    label3: string
-  }
-> = {
-  am: {
-    stat1: '15+',
-    label1: 'የክፍለ ከተማው ወረዳዎች',
-    stat2: '54 ኪ.ሜ²',
-    label2: 'የመሬት ስፋት',
-    stat3: '100%',
-    label3: 'የተረጋገጡ የህዝብ አድራሻዎች',
-  },
-  om: {
-    stat1: '15+',
-    label1: 'Aanoolee Kutaa Magaalaa',
-    stat2: '54 km²',
-    label2: "Bal'ina Lafa",
-    stat3: '100%',
-    label3: "Teessoowwan Mirkanaa'an",
-  },
-  en: {
-    stat1: '15+',
-    label1: 'Administrative Woredas',
-    stat2: '54 km²',
-    label2: 'Total Territory',
-    stat3: '100%',
-    label3: 'Verified Civic Channels',
-  },
-}
 
 const uiCopy: Record<
   Language,
@@ -66,13 +28,11 @@ const uiCopy: Record<
     heroAccent: string
     primaryCta: string
     secondaryCta: string
-    liveNote: string
-    visualLabel: string
-    visualTitle: string
-    visualBody: string
-    quickLabel: string
-    quickCards: Array<{ title: string; body: string }>
-    valuesBody: string
+    heroAsideLabel: string
+    heroAsideTitle: string
+    heroAsideBody: string
+    bannerLabel: string
+    leadershipNav: string
     galleryBody: string
     footerBody: string
     footerExplore: string
@@ -88,23 +48,18 @@ const uiCopy: Record<
     heroTop: 'የክፍለ ከተማዎ መረጃ፣',
     heroAccent: 'ሁሉም በአንድ ቦታ',
     primaryCta: 'አቃቂ ቃሊቲን ይወቁ',
-    secondaryCta: 'ማዕከለ ስዕላት',
-    liveNote: 'ይፋዊ የክፍለ ከተማ መረጃ እና የማህበረሰብ መድረክ',
-    visualLabel: 'የህዝብ አገልግሎት',
-    visualTitle: 'ለሰዎች ቀላል፣ ግልጽ እና ተደራሽ።',
-    visualBody: 'አቃቂ ቃሊቲን እና የክፍለ ከተማውን የህዝብ ስራ በአንድ የተደራጀ ቦታ ይወቁ።',
-    quickLabel: 'በፍጥነት ይፈልጉ',
-    quickCards: [
-      { title: 'ስለ አቃቂ ቃሊቲ', body: 'ስለ ክፍለ ከተማው አጭር መግቢያ።' },
-      { title: 'የፓርቲው ራዕይ', body: 'የ2018፣ 2023 እና 2050 የራዕይ ምዕራፎች።' },
-      { title: 'የፓርቲው እሴቶች', body: 'የቀረቡትን ዋና ዋና እሴቶች ይመልከቱ።' },
-      { title: 'ማዕከለ ስዕላት', body: 'የቦታዎች፣ ሰዎች እና ማህበረሰብ ትዕይንቶች።' },
-    ],
-    valuesBody: 'የህዝብ አገልግሎት ለእኛ የቢሮ ስራ ብቻ አይደለም። ሰዎች በቀላሉ ሊረዱት፣ ሊደርሱበት እና ሊተማመኑበት የሚችሉ ልምድ መፍጠር ነው።',
-    galleryBody: 'ከአስተዳደሩ ግቢ፣ ከማህበረሰብ ፕሮግራሞች እና ከአረንጓዴ ስፍራዎች የተወሰዱ ምስሎች።',
-    footerBody: 'የአቃቂ ቃሊቲን መረጃ፣ ራዕይ እና የማህበረሰብ ሕይወት በግልጽ እና ተደራሽ መንገድ የሚያቀርብ ይፋዊ የዲጂታል መድረክ።',
+    secondaryCta: 'ራዕይን ይመልከቱ',
+    heroAsideLabel: 'ይፋዊ የክፍለ ከተማ መድረክ',
+    heroAsideTitle: 'ለህዝብ ግልጽ፣ ቀላል እና ተደራሽ።',
+    heroAsideBody:
+      'ስለ አቃቂ ቃሊቲ፣ አመራሩ፣ ራዕዩ እና በክፍለ ከተማው እየተከናወኑ ያሉ ስራዎች የተደራጀ መረጃ።',
+    bannerLabel: 'ይፋዊ ማንነት',
+    leadershipNav: 'አመራር',
+    galleryBody: 'የህዝብ ተቋማት፣ የልማት ስራዎች፣ የማህበረሰብ ፕሮግራሞች እና የአቃቂ ቃሊቲ የከተማ ገጽታ።',
+    footerBody:
+      'የአቃቂ ቃሊቲን መረጃ፣ ራዕይ እና የማህበረሰብ ሕይወት በግልጽ እና ተደራሽ መንገድ የሚያቀርብ ይፋዊ የዲጂታል መድረክ።',
     footerExplore: 'ይመልከቱ',
-    footerLocation: 'አቃቂ ቃሊቲ ክፍለ ከተማ • አዲስ አበባ',
+    footerLocation: 'አቃቂ ቃሊቲ ብልፅግና ፓርቲ (ህ\u2060/\u2060ግ) • አዲስ አበባ',
     copyright: 'መብቱ የተጠበቀ ነው።',
   },
   om: {
@@ -115,23 +70,19 @@ const uiCopy: Record<
     heroTop: 'Odeeffannoo kutaa magaalaa keessanii,',
     heroAccent: 'iddoo tokko keessatti',
     primaryCta: 'Aqaaqii Qaallittii baruuf',
-    secondaryCta: 'Kuusaa suuraa',
-    liveNote: 'Odeeffannoo mootummaa kutaa magaalaa fi waltajjii hawaasaa',
-    visualLabel: 'Tajaajila uummataa',
-    visualTitle: 'Salphaa, ifaa fi nama hundaaf dhaqqabamaa.',
-    visualBody: 'Aqaaqii Qaallittii fi hojii uummataa kutaa magaalichaa iddoo qindaa’e tokko keessatti baruuf.',
-    quickLabel: 'Saffisaan ilaali',
-    quickCards: [
-      { title: 'Waa’ee kutaa magaalaa', body: 'Seensa gabaabaa waa’ee Aqaaqii Qaallittii.' },
-      { title: 'Mul’ata paartichaa', body: 'Sadarkaa mul’ataa 2018, 2023 fi 2050.' },
-      { title: 'Duudhaa paartichaa', body: 'Duudhaa ijoo dhiyaatan ilaali.' },
-      { title: 'Kuusaa suuraa', body: 'Iddoowwan, namootaa fi yeroo hawaasaa.' },
-    ],
-    valuesBody: 'Tajaajilli uummataa hojii waajjiraa qofa miti. Muuxannoo namoonni salphaatti hubatan, argatan fi itti amananii fayyadaman ijaaruu dha.',
-    galleryBody: 'Suuraalee mooraa bulchiinsaa, sagantaalee hawaasaa fi iddoowwan magariisaa irraa fudhataman.',
-    footerBody: 'Waltajjii dijitaalaa mootummaa odeeffannoo, mul’ata fi jireenya hawaasaa Aqaaqii Qaallittii ifaa fi dhaqqabamaa ta’een dhiyeessu.',
+    secondaryCta: 'Mul’ata ilaali',
+    heroAsideLabel: 'Waltajjii mootummaa kutaa magaalaa',
+    heroAsideTitle: 'Uummataaf ifaa, salphaa fi dhaqqabamaa.',
+    heroAsideBody:
+      'Odeeffannoo qindaa’e waa’ee Aqaaqii Qaallittii, hoggansa, mul’ata fi hojii kutaa magaalichaa.',
+    bannerLabel: 'Eenyummaa mootummaa',
+    leadershipNav: 'Hoggansa',
+    galleryBody:
+      'Dhaabbilee uummataa, hojii misoomaa, sagantaalee hawaasaa fi bifa magaalaa Aqaaqii Qaallittii.',
+    footerBody:
+      'Waltajjii dijitaalaa mootummaa odeeffannoo, mul’ata fi jireenya hawaasaa Aqaaqii Qaallittii ifaa fi dhaqqabamaa ta’een dhiyeessu.',
     footerExplore: 'Sakatta’i',
-    footerLocation: 'Kutaa Magaalaa Aqaaqii Qaallittii • Finfinnee',
+    footerLocation: 'Paartii Badhaadhinaa Aqaaqii Qaallittii (QU) • Finfinnee',
     copyright: 'Mirgi hundi eegamaadha.',
   },
   en: {
@@ -142,46 +93,45 @@ const uiCopy: Record<
     heroTop: 'Your sub-city information,',
     heroAccent: 'all in one place',
     primaryCta: 'Explore Akaki Kality',
-    secondaryCta: 'View gallery',
-    liveNote: 'Official sub-city information and community platform',
-    visualLabel: 'Public service',
-    visualTitle: 'Simple, open and accessible to everyone.',
-    visualBody: 'Discover Akaki Kality and the public work shaping the sub-city from one clear, organized place.',
-    quickLabel: 'Find it faster',
-    quickCards: [
-      { title: 'About the sub-city', body: 'A clear introduction to Akaki Kality and its character.' },
-      { title: 'Party vision', body: 'The 2018, 2023 and 2050 vision milestones.' },
-      { title: 'Party values', body: 'Explore the principal values presented by the party.' },
-      { title: 'Photo gallery', body: 'Places, people and moments from across the community.' },
-    ],
-    valuesBody: 'Public service should not feel like paperwork. It should be an experience people can understand, access and trust — with clarity at every step.',
-    galleryBody: 'Scenes from the administration campus, community programs and the greener public spaces that shape Akaki Kality.',
-    footerBody: 'The official digital home for clear, accessible information about Akaki Kality, its vision and its community life.',
+    secondaryCta: 'Read the vision',
+    heroAsideLabel: 'Official sub-city platform',
+    heroAsideTitle: 'Clear, simple and accessible to the public.',
+    heroAsideBody:
+      'Organized information about Akaki Kality, its leadership, vision and the work taking place across the sub-city.',
+    bannerLabel: 'Official identity',
+    leadershipNav: 'Leadership',
+    galleryBody:
+      'Public institutions, development work, community programs and the urban character of Akaki Kality.',
+    footerBody:
+      'The official digital home for clear, accessible information about Akaki Kality, its vision and its community life.',
     footerExplore: 'Explore',
-    footerLocation: 'Akaki Kality Sub-city • Addis Ababa',
+    footerLocation: 'Akaki Kality Prosperity Party (PR) • Addis Ababa',
     copyright: 'All rights reserved.',
   },
 }
 
-const sectionLinks = ['#about', '#vision', '#values', '#gallery'] as const
-
 function Home() {
   const [language, setLanguage] = useState<Language>('am')
+  const [bannerAvailable, setBannerAvailable] = useState(true)
   const copy = landingCopy[language]
-  const metrics = metricLabels[language]
   const ui = uiCopy[language]
 
   useEffect(() => {
     document.documentElement.lang = language
   }, [language])
 
+  const sectionLinks = [
+    { href: '#about', label: copy.introLabel },
+    { href: '#leadership', label: ui.leadershipNav },
+    { href: '#vision', label: copy.nav.vision },
+    { href: '#gallery', label: copy.nav.gallery },
+  ]
+
   return (
     <main className="civic-home" id="home">
       <div className="civic-utility">
         <div className="civic-shell civic-utility-inner">
-          <div className="civic-utility-copy">
-            <strong>{ui.utility}</strong>
-          </div>
+          <strong>{ui.utility}</strong>
           <div className="civic-utility-meta">
             <span>{ui.city}</span>
             <span className="civic-dot-separator" aria-hidden="true" />
@@ -193,12 +143,7 @@ function Home() {
       <div className="civic-header-wrap">
         <header className="civic-shell civic-header">
           <a className="civic-brand" href="#home" aria-label={copy.nav.home}>
-            <img
-              className="civic-brand-logo"
-              src={PROSPERITY_PARTY_LOGO_URL}
-              alt=""
-              aria-hidden="true"
-            />
+            <BrandLogo className="civic-brand-logo" />
             <span className="civic-brand-copy">
               <strong>{copy.footer}</strong>
               <span>{ui.brandTagline}</span>
@@ -206,25 +151,46 @@ function Home() {
           </a>
 
           <nav className="civic-nav" aria-label="Primary navigation">
-            <a href="#about">{copy.nav.home}</a>
-            <a href="#vision">{copy.nav.vision}</a>
-            <a href="#values">{copy.nav.values}</a>
-            <a href="#gallery">{copy.nav.gallery}</a>
+            {sectionLinks.map((item) => (
+              <a key={item.href} href={item.href}>
+                {item.label}
+              </a>
+            ))}
           </nav>
 
-          <div className="civic-header-actions">
-            <LanguageMenu value={language} onChange={setLanguage} />
-          </div>
+          <LanguageMenu value={language} onChange={setLanguage} />
         </header>
       </div>
+
+      <section className="civic-official-banner" aria-label={ui.bannerLabel}>
+        <div className="civic-shell">
+          {bannerAvailable ? (
+            <img
+              src={OFFICIAL_BANNER_URL}
+              alt={ui.bannerLabel}
+              onError={() => setBannerAvailable(false)}
+            />
+          ) : (
+            <div className="civic-banner-fallback" lang={language}>
+              <div className="civic-banner-spacer" aria-hidden="true" />
+              <div>
+                <small>{ui.bannerLabel}</small>
+                <strong>{copy.footer}</strong>
+                <span>{ui.brandTagline}</span>
+              </div>
+              <BrandLogo className="civic-banner-logo" />
+            </div>
+          )}
+        </div>
+      </section>
 
       <section className="civic-hero">
         <div className="civic-shell civic-hero-grid">
           <div className="civic-hero-copy" lang={language}>
-            <div className="civic-eyebrow">{copy.eyebrow}</div>
+            <p className="civic-eyebrow">{copy.eyebrow}</p>
             <h1>
               {ui.heroTop}
-              <span className="accent">{ui.heroAccent}</span>
+              <span>{ui.heroAccent}</span>
             </h1>
             <p className="civic-hero-lead">{copy.lead}</p>
 
@@ -233,59 +199,35 @@ function Home() {
                 <span>{ui.primaryCta}</span>
                 <HugeiconsIcon icon={ArrowRight02Icon} size={17} />
               </a>
-              <a className="civic-secondary-cta" href="#gallery">
+              <a className="civic-secondary-cta" href="#vision">
                 <span>{ui.secondaryCta}</span>
                 <HugeiconsIcon icon={ArrowRight02Icon} size={17} />
               </a>
             </div>
-
-            <div className="civic-hero-note">
-              <span aria-hidden="true" />
-              <span>{ui.liveNote}</span>
-            </div>
           </div>
 
-          <div className="civic-hero-visual" aria-label="Akaki Kality campus">
-            <div className="civic-hero-photo-frame">
-              <img
-                src="/images/akaki-kality-campus.jpeg"
-                alt="Landscaped grounds at Akaki Kality Sub-city Administration"
-              />
+          <aside className="civic-hero-brief" lang={language}>
+            <span>{ui.heroAsideLabel}</span>
+            <h2>{ui.heroAsideTitle}</h2>
+            <p>{ui.heroAsideBody}</p>
+            <div className="civic-hero-coordinate">
+              <small>{ui.city}</small>
+              <strong>08° 53′ N</strong>
             </div>
-
-            <div className="civic-hero-badge" aria-hidden="true">
-              <img src={PROSPERITY_PARTY_LOGO_URL} alt="" />
-            </div>
-
-            <div className="civic-hero-card" lang={language}>
-              <small>{ui.visualLabel}</small>
-              <strong>{ui.visualTitle}</strong>
-              <p>{ui.visualBody}</p>
-            </div>
-          </div>
+          </aside>
         </div>
       </section>
 
-      <ProsperityOverview language={language} />
-
-      <section className="civic-shell civic-quick-wrap" aria-label={ui.quickLabel}>
-        <div className="civic-quick-grid">
-          {ui.quickCards.map((item, index) => (
-            <a
-              key={item.title}
-              className="civic-quick-card"
-              href={sectionLinks[index]}
-              lang={language}
-            >
-              <span className="civic-quick-number">
-                {String(index + 1).padStart(2, '0')}
-              </span>
-              <strong>{item.title}</strong>
-              <span>{item.body}</span>
+      <nav className="civic-section-rail" aria-label="Page sections">
+        <div className="civic-shell">
+          {sectionLinks.map((item, index) => (
+            <a key={item.href} href={item.href}>
+              <span>{String(index + 1).padStart(2, '0')}</span>
+              {item.label}
             </a>
           ))}
         </div>
-      </section>
+      </nav>
 
       <section className="civic-section" id="about" lang={language}>
         <div className="civic-shell civic-about-grid">
@@ -293,48 +235,36 @@ function Home() {
             <p className="civic-section-kicker">{copy.introLabel}</p>
             <h2 className="civic-section-heading">{copy.introTitle}</h2>
             <p>{copy.introBody}</p>
-
-            <div className="civic-stats">
-              <div className="civic-stat">
-                <strong>{metrics.stat1}</strong>
-                <span>{metrics.label1}</span>
-              </div>
-              <div className="civic-stat">
-                <strong>{metrics.stat2}</strong>
-                <span>{metrics.label2}</span>
-              </div>
-              <div className="civic-stat">
-                <strong>{metrics.stat3}</strong>
-                <span>{metrics.label3}</span>
-              </div>
-            </div>
           </div>
 
           <div className="civic-about-media">
             <figure>
               <img
-                src="/images/subcity-office.jpeg"
-                alt="Akaki Kality Sub-city Administration office"
+                src="/images/rebika/facility-collage.jpeg"
+                alt="Public facilities and community infrastructure"
                 loading="lazy"
               />
             </figure>
             <figure>
               <img
-                src="/images/community-welcome.jpeg"
-                alt="Community welcome at Akaki Kality"
+                src="/images/rebika/public-square.jpeg"
+                alt="Public square and administration buildings"
                 loading="lazy"
               />
             </figure>
             <figure>
               <img
-                src="/images/green-campus.jpeg"
-                alt="Green public grounds at Akaki Kality"
+                src="/images/rebika/development-collage.jpeg"
+                alt="Development projects and public services"
                 loading="lazy"
               />
             </figure>
           </div>
         </div>
       </section>
+
+      <LeadershipSection language={language} />
+      <ProsperityOverview language={language} />
 
       <section
         className="civic-section civic-gallery-section"
@@ -351,7 +281,7 @@ function Home() {
           </div>
 
           <div className="civic-gallery-grid">
-            {galleryImages.slice(0, 4).map((image) => (
+            {galleryImages.slice(0, 6).map((image) => (
               <figure key={image.src}>
                 <img src={image.src} alt={image.alt} loading="lazy" />
                 <figcaption>{image.alt}</figcaption>
@@ -366,12 +296,7 @@ function Home() {
           <div className="civic-footer-grid">
             <div>
               <a className="civic-brand" href="#home">
-                <img
-                  className="civic-brand-logo"
-                  src={PROSPERITY_PARTY_LOGO_URL}
-                  alt=""
-                  aria-hidden="true"
-                />
+                <BrandLogo className="civic-brand-logo" />
                 <span className="civic-brand-copy">
                   <strong>{copy.footer}</strong>
                   <span>{ui.brandTagline}</span>
@@ -384,10 +309,11 @@ function Home() {
             <div>
               <h3>{ui.footerExplore}</h3>
               <div className="civic-footer-links">
-                <a href="#about">{copy.introLabel}</a>
-                <a href="#vision">{copy.nav.vision}</a>
-                <a href="#values">{copy.nav.values}</a>
-                <a href="#gallery">{copy.nav.gallery}</a>
+                {sectionLinks.map((item) => (
+                  <a key={item.href} href={item.href}>
+                    {item.label}
+                  </a>
+                ))}
               </div>
             </div>
 
