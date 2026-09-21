@@ -1,0 +1,14 @@
+# Akaki Kality Administration Portal • አቃቂ ቃሊቲ
+
+> Official civic portal for Akaki Kality Sub-City Prosperity Party (PR) and civic administration in Addis Ababa, Ethiopia.
+
+The portal provides residents, visitors, and researchers with transparent information regarding sub-city leadership, urban development initiatives, community programs, civic values, and public infrastructure.
+
+## Core Navigation
+- [Home Portal](https://kality-sucbity-medai.vercel.app/): Overview of Akaki Kality sub-city, key statistics, and geographic orientation.
+- [Administration & Leadership](https://kality-sucbity-medai.vercel.app/#leadership): Leadership directory, executive responsibilities, and institutional priorities.
+- [Vision & Strategic Pillars](https://kality-sucbity-medai.vercel.app/#vision): Strategic roadmap, institutional milestones, and inclusive economic development goals.
+- [Public Facilities & Gallery](https://kality-sucbity-medai.vercel.app/#gallery): Visual records of public infrastructure, urban revitalization, and community programs.
+
+## Administrative Services
+- [Admin Access](https://kality-sucbity-medai.vercel.app/admin/login): Administrative sign-in portal for authorized communications personnel.

@@ -140,8 +140,12 @@ function Home() {
 
       <div className="civic-header-wrap">
         <header className="civic-shell civic-header">
-          <a className="civic-brand" href="#home" aria-label={copy.nav.home}>
-            <BrandLogo className="civic-brand-logo" />
+          <a
+            className="civic-brand"
+            href="#home"
+            aria-label={`${copy.footer} - ${copy.nav.home}`}
+          >
+            <BrandLogo className="civic-brand-logo" alt="" />
             <span className="civic-brand-copy">
               <strong>{copy.footer}</strong>
               <span>{ui.brandTagline}</span>

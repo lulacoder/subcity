@@ -172,23 +172,23 @@ export const galleryImages = [
     alt: 'Institutional building and landscaped perimeter',
   },
   {
-    src: `${CDN_BASE}/images/subcity-office.jpeg`,
+    src: `${CDN_BASE}/images/subcity-office.webp`,
     alt: 'Akaki Kality Prosperity Party (PR) office and gardens',
   },
   {
-    src: `${CDN_BASE}/images/community-welcome.jpeg`,
+    src: `${CDN_BASE}/images/community-welcome.webp`,
     alt: 'Community welcome at the party compound',
   },
   {
-    src: `${CDN_BASE}/images/cultural-celebration.jpeg`,
+    src: `${CDN_BASE}/images/cultural-celebration.webp`,
     alt: 'Cultural program with the community',
   },
   {
-    src: `${CDN_BASE}/images/administration-office.jpeg`,
+    src: `${CDN_BASE}/images/administration-office.webp`,
     alt: 'An office inside the administration building',
   },
   {
-    src: `${CDN_BASE}/images/security-monitoring.jpeg`,
+    src: `${CDN_BASE}/images/security-monitoring.webp`,
     alt: 'Security monitoring system at the compound',
   },
 ] as const

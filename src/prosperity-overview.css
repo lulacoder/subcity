@@ -160,12 +160,12 @@
   gap: 28px;
   align-items: center;
   border-radius: 5px;
-  background: var(--civic-blue);
-  color: white;
+  background: #084e86;
+  color: #ffffff;
 }
 
 .prosperity-goal > span {
-  color: #9fc6df;
+  color: #e2eff8;
   font-size: 0.76rem;
   font-weight: 850;
   letter-spacing: 0.12em;
@@ -174,12 +174,13 @@
 
 .prosperity-goal h3 {
   margin: 0;
+  color: #ffffff;
   font-size: 1.18rem;
 }
 
 .prosperity-goal p {
   margin: 7px 0 0;
-  color: #d7e3ec;
+  color: #f7fafc;
   font-size: 1.05rem;
   line-height: 1.6;
 }
@@ -269,7 +270,7 @@
 
 .prosperity-objective-card > span {
   display: block;
-  color: #9aabb9;
+  color: #3e5a74;
   font-size: 0.72rem;
   font-weight: 850;
   letter-spacing: 0.1em;

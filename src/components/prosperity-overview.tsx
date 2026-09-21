@@ -20,16 +20,22 @@ export function ProsperityOverview({ language }: { language: Language }) {
         <div className="prosperity-photo-grid" aria-label={content.eyebrow}>
           <figure>
             <img
-              src="/images/community-welcome.jpeg"
+              src="/images/community-welcome.webp"
               alt={content.photoAltOne}
+              width={1080}
+              height={720}
               loading="lazy"
+              decoding="async"
             />
           </figure>
           <figure className="prosperity-photo-featured">
             <img
-              src="/images/cultural-celebration.jpeg"
+              src="/images/cultural-celebration.webp"
               alt={content.photoAltTwo}
+              width={1080}
+              height={720}
               loading="lazy"
+              decoding="async"
             />
           </figure>
         </div>

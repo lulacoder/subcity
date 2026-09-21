@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://kality-sucbity-medai.vercel.app/sitemap.xml
