@@ -29,11 +29,14 @@
   text-decoration: none;
 }
 
-.admin-app-brand img {
+.admin-app-brand img,
+.admin-app-brand .admin-app-brand-logo,
+.admin-app-brand svg {
   width: 44px;
   height: 44px;
   flex: 0 0 44px;
   object-fit: contain;
+  border-radius: 50%;
 }
 
 .admin-app-brand span {

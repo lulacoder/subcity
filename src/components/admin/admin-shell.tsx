@@ -21,8 +21,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
+import { BrandLogo } from '@/components/brand-logo'
 import { authClient } from '@/lib/auth-client'
-import { PROSPERITY_PARTY_LOGO_URL } from '@/lib/brand'
 import '@/admin-modern.css'
 
 function MenuIcon() {
@@ -98,11 +98,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
             to="/"
             onClick={() => setNavOpen(false)}
           >
-            <img
-              src={PROSPERITY_PARTY_LOGO_URL}
-              alt=""
-              aria-hidden="true"
-            />
+            <BrandLogo className="admin-app-brand-logo" alt="Akaki Kality Administration" />
             <span>
               <strong>Akaki Kality</strong>
               <small>Administration</small>
