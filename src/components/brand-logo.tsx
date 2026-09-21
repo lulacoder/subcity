@@ -8,9 +8,13 @@ import {
 export function BrandLogo({
   className,
   alt = 'Akaki Kality Sub-City Administration',
+  width,
+  height,
 }: {
   className?: string
   alt?: string
+  width?: number | string
+  height?: number | string
 }) {
   const [source, setSource] = useState(PROSPERITY_PARTY_LOGO_URL)
   const [hasError, setHasError] = useState(false)
@@ -19,6 +23,8 @@ export function BrandLogo({
     return (
       <svg
         className={className}
+        width={width}
+        height={height}
         viewBox="0 0 100 100"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -56,6 +62,9 @@ export function BrandLogo({
       className={className}
       src={source}
       alt={alt}
+      width={width}
+      height={height}
+      decoding="async"
       onError={() => {
         if (source !== PROSPERITY_PARTY_LOGO_FALLBACK_URL) {
           setSource(PROSPERITY_PARTY_LOGO_FALLBACK_URL)

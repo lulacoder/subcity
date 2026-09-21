@@ -48,7 +48,15 @@ function LeadershipPortrait({
       data-missing={failed || undefined}
     >
       {!failed && (
-        <img src={src} alt="" onError={() => setFailed(true)} loading="lazy" />
+        <img
+          src={src}
+          alt=""
+          onError={() => setFailed(true)}
+          loading="lazy"
+          decoding="async"
+          width={600}
+          height={450}
+        />
       )}
       <span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
     </div>

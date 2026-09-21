@@ -9,7 +9,6 @@ import { FooterSocialLinks } from '@/components/footer-social-links'
 import { LanguageMenu } from '@/components/language-menu'
 import { LeadershipSection } from '@/components/leadership-section'
 import { ProsperityOverview } from '@/components/prosperity-overview'
-import { OFFICIAL_BANNER_URL } from '@/lib/brand'
 import { galleryImages, landingCopy } from '@/lib/landing-content'
 import type { Language } from '@/lib/landing-content'
 import '@/home-modern.css'
@@ -112,7 +111,6 @@ const uiCopy: Record<
 
 function Home() {
   const [language, setLanguage] = useState<Language>('am')
-  const [bannerAvailable, setBannerAvailable] = useState(true)
   const copy = landingCopy[language]
   const ui = uiCopy[language]
 
@@ -164,23 +162,15 @@ function Home() {
 
       <section className="civic-official-banner" aria-label={ui.bannerLabel}>
         <div className="civic-shell">
-          {bannerAvailable ? (
-            <img
-              src={OFFICIAL_BANNER_URL}
-              alt={ui.bannerLabel}
-              onError={() => setBannerAvailable(false)}
-            />
-          ) : (
-            <div className="civic-banner-fallback" lang={language}>
-              <div className="civic-banner-spacer" aria-hidden="true" />
-              <div>
-                <small>{ui.bannerLabel}</small>
-                <strong>{copy.footer}</strong>
-                <span>{ui.brandTagline}</span>
-              </div>
-              <BrandLogo className="civic-banner-logo" />
+          <div className="civic-banner-fallback" lang={language}>
+            <div className="civic-banner-spacer" aria-hidden="true" />
+            <div>
+              <small>{ui.bannerLabel}</small>
+              <strong>{copy.footer}</strong>
+              <span>{ui.brandTagline}</span>
             </div>
-          )}
+            <BrandLogo className="civic-banner-logo" />
+          </div>
         </div>
       </section>
 
@@ -240,23 +230,32 @@ function Home() {
           <div className="civic-about-media">
             <figure>
               <img
-                src="/images/rebika/facility-collage.jpeg"
+                src="/images/rebika/facility-collage.webp"
                 alt="Public facilities and community infrastructure"
                 loading="lazy"
+                decoding="async"
+                width={520}
+                height={520}
               />
             </figure>
             <figure>
               <img
-                src="/images/rebika/public-square.jpeg"
+                src="/images/rebika/public-square.webp"
                 alt="Public square and administration buildings"
                 loading="lazy"
+                decoding="async"
+                width={520}
+                height={346}
               />
             </figure>
             <figure>
               <img
-                src="/images/rebika/development-collage.jpeg"
+                src="/images/rebika/development-collage.webp"
                 alt="Development projects and public services"
                 loading="lazy"
+                decoding="async"
+                width={480}
+                height={480}
               />
             </figure>
           </div>
@@ -283,7 +282,14 @@ function Home() {
           <div className="civic-gallery-grid">
             {galleryImages.slice(0, 6).map((image) => (
               <figure key={image.src}>
-                <img src={image.src} alt={image.alt} loading="lazy" />
+                <img
+                  src={image.src}
+                  alt={image.alt}
+                  loading="lazy"
+                  decoding="async"
+                  width={520}
+                  height={347}
+                />
                 <figcaption>{image.alt}</figcaption>
               </figure>
             ))}

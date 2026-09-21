@@ -148,27 +148,27 @@ export const CDN_BASE =
 
 export const galleryImages = [
   {
-    src: '/images/rebika/public-square.jpeg',
+    src: '/images/rebika/public-square.webp',
     alt: 'Public square and administration buildings',
   },
   {
-    src: '/images/rebika/facility-collage.jpeg',
+    src: '/images/rebika/facility-collage.webp',
     alt: 'Public facility and community infrastructure',
   },
   {
-    src: '/images/rebika/development-collage.jpeg',
+    src: '/images/rebika/development-collage.webp',
     alt: 'Development projects and public services',
   },
   {
-    src: '/images/rebika/public-building-one.jpeg',
+    src: '/images/rebika/public-building-one.webp',
     alt: 'Public service building illuminated at night',
   },
   {
-    src: '/images/rebika/public-building-two.jpeg',
+    src: '/images/rebika/public-building-two.webp',
     alt: 'Public compound and gardens at night',
   },
   {
-    src: '/images/rebika/public-building-three.jpeg',
+    src: '/images/rebika/public-building-three.webp',
     alt: 'Institutional building and landscaped perimeter',
   },
   {

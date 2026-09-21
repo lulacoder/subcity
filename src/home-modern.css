@@ -600,6 +600,8 @@
 .civic-gallery-section {
   background: white;
   border-top: 1px solid rgba(6, 42, 74, 0.08);
+  content-visibility: auto;
+  contain-intrinsic-size: 600px;
 }
 
 .civic-gallery-heading {
