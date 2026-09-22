@@ -1575,7 +1575,7 @@ body {
   gap: 8px;
   height: 40px;
   padding: 0 16px;
-  border-radius: 12px;
+  border-radius: 6px;
   border: 1px solid #edd5d8;
   background: #ffffff;
   color: var(--ink-900);
