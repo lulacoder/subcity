@@ -191,6 +191,7 @@ export const getAdmin = query({
   },
 })
 
+// eslint-disable-next-line @convex-dev/require-access-control -- Survey links are intentionally readable without signing in.
 export const getPublicBySlug = query({
   args: { slug: v.string() },
   handler: async (ctx, args) => {
@@ -212,6 +213,7 @@ export const getPublicBySlug = query({
   },
 })
 
+// eslint-disable-next-line @convex-dev/require-access-control -- The public homepage displays the featured live survey.
 export const getFeatured = query({
   args: {},
   handler: async (ctx) => {
@@ -379,7 +381,9 @@ export const getStats = query({
     await requireAdmin(ctx)
     return ctx.db
       .query('surveyAnswerStats')
-      .withIndex('by_surveyId', (q) => q.eq('surveyId', args.surveyId))
+      .withIndex('by_surveyId_and_questionId_and_valueKey', (q) =>
+        q.eq('surveyId', args.surveyId),
+      )
       .take(250)
   },
 })
@@ -450,7 +454,9 @@ export const cleanupSurveyData = internalMutation({
       .take(100)
     const stats = await ctx.db
       .query('surveyAnswerStats')
-      .withIndex('by_surveyId', (q) => q.eq('surveyId', args.surveyId))
+      .withIndex('by_surveyId_and_questionId_and_valueKey', (q) =>
+        q.eq('surveyId', args.surveyId),
+      )
       .take(100)
     for (const response of responses)
       await ctx.db.delete('surveyResponses', response._id)

@@ -1,9 +1,10 @@
+import { paginationOptsValidator, paginationResultValidator } from 'convex/server'
 import { v } from 'convex/values'
 
 import { mutation, query } from './_generated/server'
 import { requireAdmin } from './lib/auth'
 import { validatePlatformUrl } from './lib/links'
-import { socialLinksValidator } from './schema'
+import schema, { socialLinksValidator } from './schema'
 
 export const list = query({
   args: {},
@@ -13,14 +14,15 @@ export const list = query({
   },
 })
 
+// eslint-disable-next-line @convex-dev/require-access-control -- Active directory entries are intentionally public.
 export const listPublic = query({
-  args: {},
-  handler: async (ctx) => {
+  args: { paginationOpts: paginationOptsValidator },
+  returns: paginationResultValidator(schema.doc('areas')),
+  handler: async (ctx, args) => {
     return ctx.db
       .query('areas')
-      .withIndex('by_type_and_displayOrder')
-      .filter((q) => q.eq(q.field('active'), true))
-      .collect()
+      .withIndex('by_active_and_type_and_displayOrder', (q) => q.eq('active', true))
+      .paginate(args.paginationOpts)
   },
 })
 
