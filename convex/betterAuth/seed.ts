@@ -3,6 +3,7 @@ import { v } from 'convex/values'
 
 import { mutation } from './_generated/server'
 
+// eslint-disable-next-line @convex-dev/require-access-control -- Component functions are reached through the guarded parent seed, not the client API.
 export const upsertAdmin = mutation({
   args: {
     email: v.string(),

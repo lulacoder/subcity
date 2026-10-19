@@ -1,7 +1,7 @@
 import { v } from 'convex/values'
 
 import { components } from './_generated/api'
-import { mutation } from './_generated/server'
+import { internalMutation } from './_generated/server'
 import type { MutationCtx } from './_generated/server'
 
 type SeedLinks = {
@@ -160,12 +160,17 @@ async function seedDirectory(
   return createdWoredas
 }
 
-export const admin = mutation({
+export const admin = internalMutation({
   args: {
     email: v.string(),
     name: v.string(),
     password: v.string(),
   },
+  returns: v.object({
+    created: v.boolean(),
+    sessionsRevoked: v.number(),
+    createdWoredas: v.number(),
+  }),
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity()
     if (
@@ -185,8 +190,9 @@ export const admin = mutation({
   },
 })
 
-export const directory = mutation({
+export const directory = internalMutation({
   args: {},
+  returns: v.object({ createdWoredas: v.number() }),
   handler: async (ctx) => {
     const identity = await ctx.auth.getUserIdentity()
     if (

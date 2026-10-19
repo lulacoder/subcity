@@ -14,7 +14,7 @@ const publicHeaders = {
 
 authComponent.registerRoutesLazy(http, createAuth, {
   cors: true,
-  trustedOrigins: [process.env.SITE_URL ?? 'http://localhost:3000'],
+  trustedOrigins: [env.SITE_URL ?? 'http://localhost:3000'],
 })
 
 http.route({

@@ -11,7 +11,13 @@ export default [
     rules: {
       '@convex-dev/import-wrong-runtime': 'error',
       '@convex-dev/no-collect-in-query': 'error',
-      '@convex-dev/require-access-control': 'error',
+      '@convex-dev/require-access-control': [
+        'error',
+        {
+          pattern:
+            '^(require|assert|check|ensure|can)([A-Z_]|$)|^has[A-Z_]|^getAuthUser$',
+        },
+      ],
     },
   },
   {

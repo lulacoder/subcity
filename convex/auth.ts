@@ -7,7 +7,7 @@ import { admin } from 'better-auth/plugins'
 
 import type { DataModel } from './_generated/dataModel'
 import { components } from './_generated/api'
-import { query } from './_generated/server'
+import { env, query } from './_generated/server'
 import authConfig from './auth.config'
 import authSchema from './betterAuth/schema'
 
@@ -23,11 +23,11 @@ export const authComponent = createClient<DataModel, typeof authSchema>(
 )
 
 export const createAuthOptions = (ctx: GenericCtx<DataModel>) => {
-  const siteUrl = process.env.SITE_URL ?? fallbackSiteUrl
+  const siteUrl = env.SITE_URL ?? fallbackSiteUrl
 
   return {
     appName: 'Akaki Kality Directory',
-    baseURL: process.env.CONVEX_SITE_URL,
+    baseURL: env.CONVEX_SITE_URL,
     trustedOrigins: [siteUrl],
     database: authComponent.adapter(ctx),
     emailAndPassword: {
