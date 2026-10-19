@@ -83,6 +83,7 @@ export default defineSchema({
     updatedAt: v.number(),
     updatedBy: v.string(),
   })
+    .index('by_active_and_type_and_displayOrder', ['active', 'type', 'displayOrder'])
     .index('by_type_and_displayOrder', ['type', 'displayOrder'])
     .index('by_parentId_and_displayOrder', ['parentId', 'displayOrder'])
     .index('by_type_and_woredaNumber', ['type', 'woredaNumber']),
@@ -117,11 +118,9 @@ export default defineSchema({
     questionId: v.string(),
     valueKey: v.string(),
     count: v.number(),
-  })
-    .index('by_surveyId', ['surveyId'])
-    .index('by_surveyId_and_questionId_and_valueKey', [
-      'surveyId',
-      'questionId',
-      'valueKey',
-    ]),
+  }).index('by_surveyId_and_questionId_and_valueKey', [
+    'surveyId',
+    'questionId',
+    'valueKey',
+  ]),
 })

@@ -3,6 +3,7 @@ import { v } from 'convex/values'
 
 import { mutation } from './_generated/server'
 
+// eslint-disable-next-line @convex-dev/require-access-control -- Component functions are reached through the guarded parent seed, not the client API.
 export const upsertAdmin = mutation({
   args: {
     email: v.string(),
@@ -36,13 +37,13 @@ export const upsertAdmin = mutation({
       throw new Error('More than one auth user has this email address.')
     }
 
-    const existingUser = matchingUsers[0]
+    const existingUser = matchingUsers.at(0)
     let userId: string
     let created = false
 
     if (existingUser) {
       userId = existingUser._id
-      await ctx.db.patch(existingUser._id, {
+      await ctx.db.patch('user', existingUser._id, {
         name,
         role: 'admin',
         banned: false,
@@ -76,10 +77,10 @@ export const upsertAdmin = mutation({
       throw new Error('More than one credential account exists for this admin.')
     }
 
-    const credentialAccount = credentialAccounts[0]
+    const credentialAccount = credentialAccounts.at(0)
 
     if (credentialAccount) {
-      await ctx.db.patch(credentialAccount._id, {
+      await ctx.db.patch('account', credentialAccount._id, {
         accountId: userId,
         password,
         updatedAt: now,
@@ -101,7 +102,7 @@ export const upsertAdmin = mutation({
       .take(100)
 
     for (const session of sessions) {
-      await ctx.db.delete(session._id)
+      await ctx.db.delete('session', session._id)
     }
 
     return { created, sessionsRevoked: sessions.length }

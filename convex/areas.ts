@@ -1,9 +1,10 @@
+import { paginationOptsValidator, paginationResultValidator } from 'convex/server'
 import { v } from 'convex/values'
 
 import { mutation, query } from './_generated/server'
 import { requireAdmin } from './lib/auth'
 import { validatePlatformUrl } from './lib/links'
-import { socialLinksValidator } from './schema'
+import schema, { socialLinksValidator } from './schema'
 
 export const list = query({
   args: {},
@@ -13,14 +14,15 @@ export const list = query({
   },
 })
 
+// eslint-disable-next-line @convex-dev/require-access-control -- Active directory entries are intentionally public.
 export const listPublic = query({
-  args: {},
-  handler: async (ctx) => {
+  args: { paginationOpts: paginationOptsValidator },
+  returns: paginationResultValidator(schema.doc('areas')),
+  handler: async (ctx, args) => {
     return ctx.db
       .query('areas')
-      .withIndex('by_type_and_displayOrder')
-      .filter((q) => q.eq(q.field('active'), true))
-      .collect()
+      .withIndex('by_active_and_type_and_displayOrder', (q) => q.eq('active', true))
+      .paginate(args.paginationOpts)
   },
 })
 
@@ -28,7 +30,7 @@ export const getById = query({
   args: { areaId: v.id('areas') },
   handler: async (ctx, args) => {
     await requireAdmin(ctx)
-    return ctx.db.get(args.areaId)
+    return ctx.db.get('areas', args.areaId)
   },
 })
 
@@ -39,11 +41,11 @@ export const updateLinks = mutation({
   },
   handler: async (ctx, args) => {
     const adminUser = await requireAdmin(ctx)
-    const area = await ctx.db.get(args.areaId)
+    const area = await ctx.db.get('areas', args.areaId)
 
     if (!area) throw new Error('Area not found.')
 
-    await ctx.db.patch(args.areaId, {
+    await ctx.db.patch('areas', args.areaId, {
       links: {
         facebook: validatePlatformUrl('facebook', args.links.facebook ?? ''),
         instagram: validatePlatformUrl('instagram', args.links.instagram ?? ''),
@@ -115,7 +117,7 @@ export const updateWoreda = mutation({
   },
   handler: async (ctx, args) => {
     const adminUser = await requireAdmin(ctx)
-    const area = await ctx.db.get(args.areaId)
+    const area = await ctx.db.get('areas', args.areaId)
 
     if (!area || area.type !== 'woreda') {
       throw new Error('Woreda not found.')
@@ -124,7 +126,7 @@ export const updateWoreda = mutation({
     const name = args.name.trim()
     if (!name) throw new Error('Woreda name is required.')
 
-    await ctx.db.patch(args.areaId, {
+    await ctx.db.patch('areas', args.areaId, {
       name,
       displayOrder: args.displayOrder,
       active: args.active,
