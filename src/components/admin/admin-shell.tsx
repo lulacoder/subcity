@@ -1,5 +1,6 @@
 import {
   AccountSetting01Icon,
+  Folder01Icon,
   Link01Icon,
   Logout01Icon,
 } from '@hugeicons/core-free-icons'
@@ -58,6 +59,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
     location.pathname === '/admin' ||
     location.pathname.startsWith('/admin/areas')
   const surveysActive = location.pathname.startsWith('/admin/surveys')
+  const filesActive = location.pathname.startsWith('/admin/files')
 
   async function confirmLogout() {
     setLoggingOut(true)
@@ -123,6 +125,14 @@ export function AdminShell({ children }: { children: ReactNode }) {
               <span className="admin-nav-survey-icon">◫</span>
               <span>Surveys</span>
             </Link>
+            <Link
+              to="/admin/files"
+              data-active={filesActive}
+              onClick={() => setNavOpen(false)}
+            >
+              <HugeiconsIcon icon={Folder01Icon} size={18} />
+              <span>Files</span>
+            </Link>
             <button type="button" onClick={() => setPasswordOpen(true)}>
               <HugeiconsIcon icon={AccountSetting01Icon} size={18} />
               <span>Change password</span>
@@ -168,8 +178,8 @@ export function AdminShell({ children }: { children: ReactNode }) {
           <DialogHeader>
             <DialogTitle>Sign out of the admin portal?</DialogTitle>
             <DialogDescription>
-              You will need to sign in again before managing the directory or
-              surveys.
+              You will need to sign in again before managing the directory,
+              surveys, or files.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter className="mt-5">
