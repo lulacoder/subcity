@@ -65,11 +65,13 @@ type FileLibraryProps = {
   onKindChange: (value: FileKind | 'all') => void
   uploads: UploadItem[]
   uploading: boolean
+  discardingId: string | null
   error: string
   notice: string
   downloadingId: Id<'files'> | null
   onUpload: (files: File[]) => void
   onRetry: (item: UploadItem) => void
+  onDiscard: (item: UploadItem) => void
   onClearUploads: () => void
   onCopyLink: (file: LibraryFile) => void
   onDownload: (file: LibraryFile) => void
@@ -88,6 +90,7 @@ export function FileLibraryView(props: FileLibraryProps) {
   const [dialogError, setDialogError] = useState('')
   const [saving, setSaving] = useState(false)
   const hasFilters = Boolean(props.search.trim()) || props.kind !== 'all'
+  const busy = props.uploading || props.discardingId !== null
 
   function openDialog(kind: FileDialog['kind'], file: LibraryFile) {
     setName(file.name)
@@ -129,7 +132,7 @@ export function FileLibraryView(props: FileLibraryProps) {
         </div>
         <Button
           size="lg"
-          disabled={props.uploading}
+          disabled={busy}
           onClick={() => inputRef.current?.click()}
         >
           <HugeiconsIcon icon={Upload04Icon} size={18} />
@@ -144,7 +147,7 @@ export function FileLibraryView(props: FileLibraryProps) {
         multiple
         className="sr-only"
         aria-label="Choose files to upload"
-        disabled={props.uploading}
+        disabled={busy}
         onChange={(event) => {
           const files = Array.from(event.currentTarget.files ?? [])
           event.currentTarget.value = ''
@@ -156,12 +159,12 @@ export function FileLibraryView(props: FileLibraryProps) {
         type="button"
         className="files-dropzone"
         data-dragging={dragging}
-        disabled={props.uploading}
+        disabled={busy}
         onClick={() => inputRef.current?.click()}
         onDragOver={(event) => {
           event.preventDefault()
-          event.dataTransfer.dropEffect = props.uploading ? 'none' : 'copy'
-          if (!props.uploading) setDragging(true)
+          event.dataTransfer.dropEffect = busy ? 'none' : 'copy'
+          if (!busy) setDragging(true)
         }}
         onDragLeave={(event) => {
           if (
@@ -174,8 +177,7 @@ export function FileLibraryView(props: FileLibraryProps) {
         onDrop={(event) => {
           event.preventDefault()
           setDragging(false)
-          if (!props.uploading)
-            props.onUpload(Array.from(event.dataTransfer.files))
+          if (!busy) props.onUpload(Array.from(event.dataTransfer.files))
         }}
       >
         <span className="files-dropzone-icon">
@@ -197,7 +199,7 @@ export function FileLibraryView(props: FileLibraryProps) {
         <section className="files-upload-list" aria-label="Uploads">
           <div className="files-upload-heading">
             <h2>{props.uploading ? 'Uploading your files' : 'Uploads'}</h2>
-            {!props.uploading &&
+            {!busy &&
               props.uploads.some(
                 (item) =>
                   item.status === 'done' ||
@@ -242,10 +244,23 @@ export function FileLibraryView(props: FileLibraryProps) {
                   <Button
                     variant="outline"
                     size="sm"
-                    disabled={props.uploading}
+                    disabled={busy}
                     onClick={() => props.onRetry(item)}
                   >
                     Retry
+                  </Button>
+                )}
+                {item.status === 'error' && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    disabled={busy}
+                    aria-label={`Discard ${item.file.name}`}
+                    onClick={() => props.onDiscard(item)}
+                  >
+                    {props.discardingId === item.id
+                      ? 'Discarding...'
+                      : 'Discard'}
                   </Button>
                 )}
               </li>
@@ -338,7 +353,7 @@ export function FileLibraryView(props: FileLibraryProps) {
             ) : (
               <Button
                 variant="outline"
-                disabled={props.uploading}
+                disabled={busy}
                 onClick={() => inputRef.current?.click()}
               >
                 Choose files

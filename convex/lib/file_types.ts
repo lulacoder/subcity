@@ -72,9 +72,10 @@ export function getFileNameError(value: string): string | null {
 }
 
 export function getFileType(filename: string) {
-  const dot = filename.lastIndexOf('.')
+  const name = filename.trim()
+  const dot = name.lastIndexOf('.')
   if (dot <= 0) return undefined
 
-  const extension = filename.slice(dot + 1).toLowerCase()
+  const extension = name.slice(dot + 1).toLowerCase()
   return fileTypes.find((type) => type.extension === extension)
 }

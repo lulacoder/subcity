@@ -147,10 +147,8 @@ export const discardUpload = mutation({
       .query('files')
       .withIndex('by_storageId', (q) => q.eq('storageId', args.storageId))
       .unique()
-    if (existing)
-      throw new ConvexError(
-        'Registered files must be deleted from the library.',
-      )
+    // A save may have succeeded even if its response never reached the browser.
+    if (existing) return null
 
     if (await ctx.db.system.get('_storage', args.storageId)) {
       await ctx.storage.delete(args.storageId)

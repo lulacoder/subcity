@@ -1,6 +1,6 @@
 import { createFileRoute, Navigate } from '@tanstack/react-router'
 import { useConvexAuth, useMutation, usePaginatedQuery } from 'convex/react'
-import { useDeferredValue, useRef, useState } from 'react'
+import { useDeferredValue, useEffect, useRef, useState } from 'react'
 
 import { api } from '../../convex/_generated/api'
 import type { Id } from '../../convex/_generated/dataModel'
@@ -60,6 +60,9 @@ function FileLibrary() {
   const [uploads, setUploads] = useState<UploadItem[]>([])
   const [uploading, setUploading] = useState(false)
   const uploadLock = useRef(false)
+  const uploadController = useRef<AbortController | null>(null)
+  const pendingStorageIds = useRef(new Set<Id<'_storage'>>())
+  const [discardingId, setDiscardingId] = useState<string | null>(null)
   const [error, setError] = useState('')
   const [notice, setNotice] = useState('')
   const [downloadingId, setDownloadingId] = useState<Id<'files'> | null>(null)
@@ -76,6 +79,18 @@ function FileLibrary() {
   const saveFile = useMutation(api.files.save)
   const renameFile = useMutation(api.files.rename)
   const removeFile = useMutation(api.files.remove)
+  const discardUpload = useMutation(api.files.discardUpload)
+
+  useEffect(() => {
+    const pending = pendingStorageIds.current
+    return () => {
+      uploadController.current?.abort()
+      for (const storageId of pending) {
+        // The scheduled cleanup handles offline/browser-close failures.
+        void discardUpload({ storageId }).catch(() => {})
+      }
+    }
+  }, [discardUpload])
 
   function updateUpload(item: UploadItem) {
     setUploads((current) =>
@@ -86,28 +101,44 @@ function FileLibrary() {
   async function processUploads(items: UploadItem[]) {
     if (uploadLock.current) return
     uploadLock.current = true
+    const controller = new AbortController()
+    uploadController.current = controller
+    const { signal } = controller
     setUploading(true)
     setError('')
     setNotice('')
     try {
       for (const item of items) {
+        if (signal.aborted) break
         if (item.status === 'error' && !item.retryable) continue
         let storageId = item.status === 'error' ? item.storageId : null
         try {
           if (!storageId) {
             updateUpload({ ...item, status: 'uploading', progress: 0 })
             const url = await generateUploadUrl()
+            signal.throwIfAborted()
             storageId = await uploadFile({
               file: item.file,
               url,
+              signal,
               onProgress: (progress) =>
                 updateUpload({ ...item, status: 'uploading', progress }),
             })
           }
+          pendingStorageIds.current.add(storageId)
+          signal.throwIfAborted()
           updateUpload({ ...item, status: 'saving', storageId })
-          await saveFile({ storageId, originalName: item.file.name })
+          await saveFile({ storageId, originalName: item.file.name.trim() })
+          pendingStorageIds.current.delete(storageId)
+          signal.throwIfAborted()
           updateUpload({ ...item, status: 'done' })
         } catch (uploadError) {
+          if (controller.signal.aborted) {
+            if (storageId && pendingStorageIds.current.has(storageId)) {
+              void discardUpload({ storageId }).catch(() => {})
+            }
+            break
+          }
           updateUpload({
             ...item,
             status: 'error',
@@ -121,7 +152,32 @@ function FileLibrary() {
       }
     } finally {
       uploadLock.current = false
-      setUploading(false)
+      uploadController.current = null
+      if (!signal.aborted) setUploading(false)
+    }
+  }
+
+  async function discard(item: UploadItem) {
+    if (uploadLock.current || item.status !== 'error') return
+    uploadLock.current = true
+    setDiscardingId(item.id)
+    setError('')
+    try {
+      if (item.storageId) {
+        await discardUpload({ storageId: item.storageId })
+        pendingStorageIds.current.delete(item.storageId)
+      }
+      setUploads((current) => current.filter((entry) => entry.id !== item.id))
+    } catch (discardError) {
+      setError(
+        fileErrorMessage(
+          discardError,
+          'Could not discard this upload. Please retry.',
+        ),
+      )
+    } finally {
+      uploadLock.current = false
+      setDiscardingId(null)
     }
   }
 
@@ -191,11 +247,13 @@ function FileLibrary() {
       onKindChange={setKind}
       uploads={uploads}
       uploading={uploading}
+      discardingId={discardingId}
       error={error}
       notice={notice}
       downloadingId={downloadingId}
       onUpload={addFiles}
       onRetry={(item) => void processUploads([item])}
+      onDiscard={(item) => void discard(item)}
       onClearUploads={() =>
         setUploads((current) =>
           current.filter(

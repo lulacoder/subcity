@@ -1,10 +1,10 @@
 /// <reference types="vite/client" />
 import { convexTest } from 'convex-test'
 import type { GenericDatabaseWriter, GenericDataModel } from 'convex/server'
-import { describe, expect, test } from 'vitest'
+import { afterEach, describe, expect, test, vi } from 'vitest'
 import { z } from 'zod'
 
-import { api, components } from './_generated/api'
+import { api, components, internal } from './_generated/api'
 import authSchema from './betterAuth/schema'
 import { getFileNameError, getFileType, MAX_FILE_SIZE } from './lib/file_types'
 import schema from './schema'
@@ -17,6 +17,8 @@ const modules = import.meta.glob([
 const authModules = import.meta.glob('./betterAuth/**/*.ts')
 const createdRecord = z.object({ _id: z.string() })
 const paginationOpts = { cursor: null, numItems: 20 }
+
+afterEach(() => vi.useRealTimers())
 
 async function setup() {
   const t = convexTest(schema, modules)
@@ -104,41 +106,46 @@ describe('admin file library', () => {
     }
   })
 
-  test('requires an admin for every library operation', async () => {
-    const { t, admin, user, save } = await setup()
-    const { fileId, storageId } = await save('private-management.pdf')
+  // This first integration test also loads Better Auth's generated modules.
+  test(
+    'requires an admin for every library operation',
+    { timeout: 15_000 },
+    async () => {
+      const { t, admin, user, save } = await setup()
+      const { fileId, storageId } = await save('private-management.pdf')
 
-    for (const client of [t, user]) {
-      await expect(
-        client.mutation(api.files.generateUploadUrl, {}),
-      ).rejects.toThrow()
-      await expect(
-        client.query(api.files.list, { paginationOpts }),
-      ).rejects.toThrow()
-      await expect(
-        client.mutation(api.files.save, {
-          storageId,
-          originalName: 'copy.pdf',
-        }),
-      ).rejects.toThrow()
-      await expect(
-        client.mutation(api.files.rename, { fileId, name: 'Changed.pdf' }),
-      ).rejects.toThrow()
-      await expect(
-        client.mutation(api.files.remove, { fileId }),
-      ).rejects.toThrow()
-      await expect(
-        client.mutation(api.files.discardUpload, { storageId }),
-      ).rejects.toThrow()
-    }
+      for (const client of [t, user]) {
+        await expect(
+          client.mutation(api.files.generateUploadUrl, {}),
+        ).rejects.toThrow()
+        await expect(
+          client.query(api.files.list, { paginationOpts }),
+        ).rejects.toThrow()
+        await expect(
+          client.mutation(api.files.save, {
+            storageId,
+            originalName: 'copy.pdf',
+          }),
+        ).rejects.toThrow()
+        await expect(
+          client.mutation(api.files.rename, { fileId, name: 'Changed.pdf' }),
+        ).rejects.toThrow()
+        await expect(
+          client.mutation(api.files.remove, { fileId }),
+        ).rejects.toThrow()
+        await expect(
+          client.mutation(api.files.discardUpload, { storageId }),
+        ).rejects.toThrow()
+      }
 
-    expect(
-      (await admin.query(api.files.list, { paginationOpts })).page,
-    ).toHaveLength(1)
-    expect(await admin.mutation(api.files.generateUploadUrl, {})).toContain(
-      '/api/storage/upload',
-    )
-  })
+      expect(
+        (await admin.query(api.files.list, { paginationOpts })).page,
+      ).toHaveLength(1)
+      expect(await admin.mutation(api.files.generateUploadUrl, {})).toContain(
+        '/api/storage/upload',
+      )
+    },
+  )
 
   test.each([
     'photo.jpg',
@@ -184,6 +191,18 @@ describe('admin file library', () => {
     expect(
       (await admin.query(api.files.list, { paginationOpts })).page,
     ).toHaveLength(1)
+  })
+
+  test('normalizes surrounding spaces before accepting and saving a filename', async () => {
+    const { admin, save } = await setup()
+    await save('  report.PDF  ')
+    expect(
+      (await admin.query(api.files.list, { paginationOpts })).page[0],
+    ).toMatchObject({
+      name: 'report.PDF',
+      originalName: 'report.PDF',
+      contentType: 'application/pdf',
+    })
   })
 
   test('rejects unsupported extensions, MIME mismatch, empty, oversized, missing files, and invalid names', async () => {
@@ -318,9 +337,10 @@ describe('admin file library', () => {
   test('discard only removes unregistered uploads, while deleting removes bytes and the library record', async () => {
     const { t, admin, save, upload } = await setup()
     const { fileId, storageId } = await save('report.pdf')
-    await expect(
-      admin.mutation(api.files.discardUpload, { storageId }),
-    ).rejects.toThrow('Registered files')
+    // A lost save response can leave a registered file in the failed upload list.
+    await admin.mutation(api.files.discardUpload, { storageId })
+    await admin.mutation(api.files.discardUpload, { storageId })
+    expect(await t.run((ctx) => ctx.db.get('files', fileId))).not.toBeNull()
     expect(
       await t.run(async (ctx) => (await ctx.storage.get(storageId))?.size),
     ).toBe(4)
@@ -338,5 +358,79 @@ describe('admin file library', () => {
     await expect(
       admin.mutation(api.files.rename, { fileId, name: 'Missing.pdf' }),
     ).rejects.toThrow('not found')
+  })
+
+  test('scheduled cleanup removes only unregistered files older than 24 hours', async () => {
+    vi.useFakeTimers()
+    const started = Date.now()
+    const { t, save, upload } = await setup()
+    const registered = await save('registered.pdf')
+    const abandoned = await upload('abandoned.pdf')
+
+    vi.setSystemTime(started + 25 * 60 * 60 * 1000)
+    const recent = await upload('recent.pdf')
+    await t.mutation(internal.file_cleanup.removeAbandonedUploads, {})
+    await t.finishAllScheduledFunctions(() => vi.runAllTimers())
+
+    expect(await t.run((ctx) => ctx.storage.get(abandoned))).toBeNull()
+    expect(
+      await t.run(async (ctx) => (await ctx.storage.get(recent))?.size),
+    ).toBe(4)
+    expect(
+      await t.run(
+        async (ctx) => (await ctx.storage.get(registered.storageId))?.size,
+      ),
+    ).toBe(4)
+    expect(
+      await t.run((ctx) => ctx.db.get('files', registered.fileId)),
+    ).not.toBeNull()
+
+    await t.mutation(internal.file_cleanup.removeAbandonedUploads, {})
+    await t.finishAllScheduledFunctions(() => vi.runAllTimers())
+    expect(
+      await t.run(async (ctx) => (await ctx.storage.get(recent))?.size),
+    ).toBe(4)
+    expect(
+      await t.run((ctx) => ctx.storage.getUrl(registered.storageId)),
+    ).not.toBeNull()
+  })
+
+  test('cleanup continues across registered-only batches and preserves files registered before the next batch', async () => {
+    vi.useFakeTimers()
+    const { t, admin, save, upload } = await setup()
+    const registered = []
+    for (let index = 0; index < 55; index++) {
+      registered.push(await save(`registered-${index}.pdf`))
+    }
+    const abandoned = []
+    for (let index = 0; index < 60; index++) {
+      abandoned.push(await upload(`abandoned-${index}.pdf`))
+    }
+    const savedBetweenBatches = await upload('late-save.pdf')
+
+    await t.mutation(internal.file_cleanup.removeAbandonedUploads, {
+      before: Date.now() + 1000,
+    })
+    await admin.mutation(api.files.save, {
+      storageId: savedBetweenBatches,
+      originalName: 'late-save.pdf',
+    })
+    await t.finishAllScheduledFunctions(() => vi.runAllTimers())
+
+    for (const storageId of abandoned) {
+      expect(await t.run((ctx) => ctx.storage.get(storageId))).toBeNull()
+    }
+    expect(
+      await t.run(
+        async (ctx) => (await ctx.storage.get(savedBetweenBatches))?.size,
+      ),
+    ).toBe(4)
+    for (const file of registered) {
+      expect(
+        await t.run(
+          async (ctx) => (await ctx.storage.get(file.storageId))?.size,
+        ),
+      ).toBe(4)
+    }
   })
 })

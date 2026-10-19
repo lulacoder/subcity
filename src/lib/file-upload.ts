@@ -48,16 +48,27 @@ export function uploadFile({
   file,
   url,
   onProgress,
+  signal,
 }: {
   file: File
   url: string
   onProgress: (progress: number) => void
+  signal?: AbortSignal
 }) {
+  if (signal?.aborted) {
+    return Promise.reject(new DOMException('Upload cancelled.', 'AbortError'))
+  }
   const fileType = getFileType(file.name)
   if (!fileType) return Promise.reject(new Error('Unsupported file type.'))
 
   return new Promise<Id<'_storage'>>((resolve, reject) => {
     const request = new XMLHttpRequest()
+    const abort = () => request.abort()
+    const cleanup = () => signal?.removeEventListener('abort', abort)
+    const fail = (error: Error) => {
+      cleanup()
+      reject(error)
+    }
     request.open('POST', url)
     request.setRequestHeader('Content-Type', fileType.contentType)
     request.responseType = 'json'
@@ -68,12 +79,12 @@ export function uploadFile({
       }
     }
     request.onerror = () =>
-      reject(new Error('Upload failed. Check your connection and retry.'))
-    request.ontimeout = () =>
-      reject(new Error('Upload timed out. Please retry.'))
+      fail(new Error('Upload failed. Check your connection and retry.'))
+    request.ontimeout = () => fail(new Error('Upload timed out. Please retry.'))
     request.onabort = () =>
-      reject(new Error('Upload was interrupted. Please retry.'))
+      fail(new DOMException('Upload cancelled.', 'AbortError'))
     request.onload = () => {
+      cleanup()
       if (request.status < 200 || request.status >= 300) {
         reject(new Error('The file could not be uploaded. Please retry.'))
         return
@@ -89,6 +100,7 @@ export function uploadFile({
       // Convex validates the opaque storage ID again when saving the file.
       resolve(parsed.data.storageId as Id<'_storage'>)
     }
+    signal?.addEventListener('abort', abort, { once: true })
     request.send(file)
   })
 }
