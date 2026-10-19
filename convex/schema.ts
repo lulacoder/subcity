@@ -1,6 +1,14 @@
 import { defineSchema, defineTable } from 'convex/server'
 import { v } from 'convex/values'
 
+export const fileKindValidator = v.union(
+  v.literal('image'),
+  v.literal('pdf'),
+  v.literal('document'),
+  v.literal('spreadsheet'),
+  v.literal('presentation'),
+)
+
 export const socialLinksValidator = v.object({
   facebook: v.optional(v.string()),
   instagram: v.optional(v.string()),
@@ -49,6 +57,21 @@ export const surveyAnswerValidator = v.object({
 })
 
 export default defineSchema({
+  files: defineTable({
+    storageId: v.id('_storage'),
+    name: v.string(),
+    originalName: v.string(),
+    kind: fileKindValidator,
+    contentType: v.string(),
+    size: v.number(),
+    uploadedBy: v.string(),
+  })
+    .index('by_storageId', ['storageId'])
+    .index('by_kind', ['kind'])
+    .searchIndex('search_name', {
+      searchField: 'name',
+      filterFields: ['kind'],
+    }),
   areas: defineTable({
     type: areaTypeValidator,
     name: v.string(),

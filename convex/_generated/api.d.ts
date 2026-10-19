@@ -10,8 +10,12 @@
 
 import type * as areas from "../areas.js";
 import type * as auth from "../auth.js";
+import type * as crons from "../crons.js";
+import type * as file_cleanup from "../file_cleanup.js";
+import type * as files from "../files.js";
 import type * as http from "../http.js";
 import type * as lib_auth from "../lib/auth.js";
+import type * as lib_file_types from "../lib/file_types.js";
 import type * as lib_links from "../lib/links.js";
 import type * as seed from "../seed.js";
 import type * as surveys from "../surveys.js";
@@ -26,8 +30,12 @@ import type {
 declare const fullApi: ApiFromModules<{
   areas: typeof areas;
   auth: typeof auth;
+  crons: typeof crons;
+  file_cleanup: typeof file_cleanup;
+  files: typeof files;
   http: typeof http;
   "lib/auth": typeof lib_auth;
+  "lib/file_types": typeof lib_file_types;
   "lib/links": typeof lib_links;
   seed: typeof seed;
   surveys: typeof surveys;
