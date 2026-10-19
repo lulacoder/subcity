@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as DirectoryRouteImport } from './routes/directory'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as AdminFilesRouteImport } from './routes/admin.files'
 import { Route as AdminSurveysRouteImport } from './routes/admin.surveys'
 import { Route as AdminLoginRouteImport } from './routes/admin_.login'
 import { Route as DirectoryIndexRouteImport } from './routes/directory.index'
@@ -40,6 +41,11 @@ const DirectoryRoute = DirectoryRouteImport.update({
 const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminFilesRoute = AdminFilesRouteImport.update({
+  id: '/files',
+  path: '/files',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminSurveysRoute = AdminSurveysRouteImport.update({
@@ -87,6 +93,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
   '/directory': typeof DirectoryRouteWithChildren
+  '/admin/files': typeof AdminFilesRoute
   '/admin/surveys': typeof AdminSurveysRouteWithChildren
   '/admin/login': typeof AdminLoginRoute
   '/directory/$slug': typeof DirectorySlugRoute
@@ -99,6 +106,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin/files': typeof AdminFilesRoute
   '/admin/login': typeof AdminLoginRoute
   '/directory/$slug': typeof DirectorySlugRoute
   '/surveys/$slug': typeof SurveysSlugRoute
@@ -113,6 +121,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
   '/directory': typeof DirectoryRouteWithChildren
+  '/admin/files': typeof AdminFilesRoute
   '/admin/surveys': typeof AdminSurveysRouteWithChildren
   '/admin_/login': typeof AdminLoginRoute
   '/directory/$slug': typeof DirectorySlugRoute
@@ -129,6 +138,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/directory'
+    | '/admin/files'
     | '/admin/surveys'
     | '/admin/login'
     | '/directory/$slug'
@@ -141,6 +151,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/admin/files'
     | '/admin/login'
     | '/directory/$slug'
     | '/surveys/$slug'
@@ -154,6 +165,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/directory'
+    | '/admin/files'
     | '/admin/surveys'
     | '/admin_/login'
     | '/directory/$slug'
@@ -201,6 +213,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/admin/'
       preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/files': {
+      id: '/admin/files'
+      path: '/files'
+      fullPath: '/admin/files'
+      preLoaderRoute: typeof AdminFilesRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/surveys': {
@@ -277,12 +296,14 @@ const AdminSurveysRouteWithChildren = AdminSurveysRoute._addFileChildren(
 )
 
 interface AdminRouteChildren {
+  AdminFilesRoute: typeof AdminFilesRoute
   AdminSurveysRoute: typeof AdminSurveysRouteWithChildren
   AdminIndexRoute: typeof AdminIndexRoute
   AdminAreasIdRoute: typeof AdminAreasIdRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminFilesRoute: AdminFilesRoute,
   AdminSurveysRoute: AdminSurveysRouteWithChildren,
   AdminIndexRoute: AdminIndexRoute,
   AdminAreasIdRoute: AdminAreasIdRoute,
