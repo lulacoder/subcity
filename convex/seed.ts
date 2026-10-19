@@ -1,7 +1,8 @@
 import { v } from 'convex/values'
 
 import { components } from './_generated/api'
-import { mutation, type MutationCtx } from './_generated/server'
+import { mutation } from './_generated/server'
+import type { MutationCtx } from './_generated/server'
 
 type SeedLinks = {
   facebook?: string
@@ -112,7 +113,7 @@ async function seedDirectory(
       updatedAt: now,
       updatedBy,
     })
-    city = (await ctx.db.get(cityId)) ?? undefined
+    city = (await ctx.db.get('areas', cityId)) ?? undefined
   }
 
   let subcity = existingAreas.find((area) => area.type === 'subcity')
@@ -127,7 +128,7 @@ async function seedDirectory(
       updatedAt: now,
       updatedBy,
     })
-    subcity = (await ctx.db.get(subcityId)) ?? undefined
+    subcity = (await ctx.db.get('areas', subcityId)) ?? undefined
   }
 
   if (!subcity) throw new Error('Could not create the Akaki Kality Prosperity Party (PR) area.')

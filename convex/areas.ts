@@ -28,7 +28,7 @@ export const getById = query({
   args: { areaId: v.id('areas') },
   handler: async (ctx, args) => {
     await requireAdmin(ctx)
-    return ctx.db.get(args.areaId)
+    return ctx.db.get('areas', args.areaId)
   },
 })
 
@@ -39,11 +39,11 @@ export const updateLinks = mutation({
   },
   handler: async (ctx, args) => {
     const adminUser = await requireAdmin(ctx)
-    const area = await ctx.db.get(args.areaId)
+    const area = await ctx.db.get('areas', args.areaId)
 
     if (!area) throw new Error('Area not found.')
 
-    await ctx.db.patch(args.areaId, {
+    await ctx.db.patch('areas', args.areaId, {
       links: {
         facebook: validatePlatformUrl('facebook', args.links.facebook ?? ''),
         instagram: validatePlatformUrl('instagram', args.links.instagram ?? ''),
@@ -115,7 +115,7 @@ export const updateWoreda = mutation({
   },
   handler: async (ctx, args) => {
     const adminUser = await requireAdmin(ctx)
-    const area = await ctx.db.get(args.areaId)
+    const area = await ctx.db.get('areas', args.areaId)
 
     if (!area || area.type !== 'woreda') {
       throw new Error('Woreda not found.')
@@ -124,7 +124,7 @@ export const updateWoreda = mutation({
     const name = args.name.trim()
     if (!name) throw new Error('Woreda name is required.')
 
-    await ctx.db.patch(args.areaId, {
+    await ctx.db.patch('areas', args.areaId, {
       name,
       displayOrder: args.displayOrder,
       active: args.active,
